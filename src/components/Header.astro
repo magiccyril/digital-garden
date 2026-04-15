@@ -7,12 +7,12 @@ interface Props {
 
 const { currentPath } = Astro.props;
 
-const SITE_NAME = '18 rue Divona - Digital Garden';
+const HEADER_SITE_NAME = '18 rue Divona';
 ---
 
 <header class="site-header">
   <nav class="header-nav">
-    <a href="/" class="logo">{SITE_NAME}</a>
+    <a href="/" class="logo">{HEADER_SITE_NAME}</a>
     <div class="nav-links">
       <NavLink href="/notes" label="Notes" active={currentPath.startsWith('/notes')} />
     </div>
