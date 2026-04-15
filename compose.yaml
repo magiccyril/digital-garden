@@ -2,13 +2,15 @@ services:
   digital-garden:
     build: .
     container_name: digital-garden
+    env_file:
+      - .env
     restart: unless-stopped
     volumes:
-      # Notes Obsidian synchronisées par Syncthing — lecture seule pour le builder
-      - /data/syncthing/notes:/app/src/content/notes:ro
-      # dist/ sur l'hôte : SWAG le sert directement depuis ce chemin
-      - /opt/digital-garden/dist:/app/dist
+      # Notes Obsidian — lecture seule pour le builder
+      - ${NOTES_PATH}:/app/src/content/notes:ro
+      # Chemin du build sur l'hôte
+      - ${DIST_PATH}:/app/dist
       # (optionnel) persister les logs de build entre les redémarrages
-      # - /opt/digital-garden/build.log:/app/build.log
+      - ${LOG_PATH}:/app/logs
     environment:
       - NODE_ENV=production

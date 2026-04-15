@@ -13,7 +13,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WATCH_DIR="${PROJECT_DIR}/src/content/notes"
 
 # Fichier de log
-LOG_FILE="${PROJECT_DIR}/build.log"
+LOG_FILE="${PROJECT_DIR}/logs/build.log"
 
 # Délai de debounce en secondes : évite les builds en rafale quand
 # Syncthing synchronise plusieurs fichiers d'un coup.
