@@ -1,0 +1,28 @@
+---
+const SITE_AUTHOR = 'Cyril G';
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>{SITE_AUTHOR} - {new Date().getFullYear()}</span>
+    <span>Cultivé avec soin 🌱</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+import PageLayout from './PageLayout.astro';
+import StageBadge from '../components/StageBadge.astro';
+import Tag from '../components/Tag.astro';
+import BacklinkList from '../components/BacklinkList.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  note: CollectionEntry<'notes'>;
+}
+
+const { note } = Astro.props;
+const { title, date, stage, tags, description } = note.data;
+
+// ── Backlinks : trouve les notes qui mentionnent celle-ci ──
+// LOGIQUE PRÉSERVÉE À L'IDENTIQUE — ne pas modifier
+const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+
+const backlinks = allNotes.filter((n) => {
+  if (n.id === note.id) return false;
+  // Cherche [[note-id]] ou [[Note Title]] dans le corps
+  const raw = n.body ?? '';
+  return (
+    raw.includes(`[[${note.id}]]`) ||
+    raw.includes(`[[${title}]]`) ||
+    raw.toLowerCase().includes(`[[${title.toLowerCase()}]]`)
+  );
+});
+
+const formattedDate = date.toLocaleDateString('fr-FR', {
+  year: 'numeric',
+  month: 'long',    // ← 'long' (pas 'short' comme dans NoteCard)
+  day: 'numeric',
+});
+---
+
+<PageLayout title={title} description={description}>
+  <article class="note-layout">
+    <header class="note-header">
+      <div class="note-header__badge">
+        <StageBadge stage={stage} />
+      </div>
+      <h1 class="note-header__title">{title}</h1>
+      {description && (
+        <p class="note-header__description">{description}</p>
+      )}
+      <div class="note-header__meta">
+        <time datetime={date.toISOString()} class="note-header__date">{formattedDate}</time>
+        {tags.length > 0 && (
+          <div class="note-header__tags">
+            {tags.map((tag) => (
+              <Tag label={tag} href={`/notes?tag=${tag}`} />
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <BacklinkList backlinks={backlinks.map((n) => ({ title: n.data.title, slug: n.id }))} />
+
+    <div class="note-back">
+      <a href="/notes" class="note-back__link">← Toutes les notes</a>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .note-header {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .note-header__badge {
+    margin-bottom: var(--space-md);
+  }
+
+  .note-header__title {
+    font-size: var(--text-3xl);
+    font-weight: 600;       /* pas de token font-weight — valeur structurelle */
+    margin: 0 0 var(--space-md);
+    line-height: 1.15;      /* override de la règle globale h1-h4 { line-height: 1.25 } */
+  }
+
+  .note-header__description {
+    font-size: var(--text-base);
+    color: var(--color-ink-muted);
+    margin: 0 0 var(--space-lg);
+    font-style: italic;     /* pas de token font-style — valeur structurelle */
+  }
+
+  .note-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .note-header__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .note-back {
+    margin-top: var(--space-2xl);
+  }
+
+  .note-back__link {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+</style>

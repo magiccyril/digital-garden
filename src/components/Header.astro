@@ -1,0 +1,53 @@
+---
+import NavLink from './NavLink.astro';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const SITE_NAME = '18 rue Divona - Digital Garden';
+---
+
+<header class="site-header">
+  <nav class="header-nav">
+    <a href="/" class="logo">{SITE_NAME}</a>
+    <div class="nav-links">
+      <NavLink href="/notes" label="Notes" active={currentPath.startsWith('/notes')} />
+    </div>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-nav {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .logo:hover {
+    color: var(--color-ink);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-lg);
+  }
+</style>

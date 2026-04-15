@@ -1,0 +1,75 @@
+---
+interface Props {
+  stage: 'seedling' | 'budding' | 'evergreen';
+  size?: 'sm' | 'md';
+}
+
+const { stage, size = 'md' } = Astro.props;
+
+const config = {
+  seedling: {
+    emoji: '🌱',
+    label: 'Seedling',
+    // Idée fraîche, notes brouillon
+    description: 'Pensée fraîche, encore incomplète',
+    class: 'stage-seedling',
+  },
+  budding: {
+    emoji: '🌿',
+    label: 'Budding',
+    // En développement actif
+    description: 'En développement actif',
+    class: 'stage-budding',
+  },
+  evergreen: {
+    emoji: '🌳',
+    label: 'Evergreen',
+    // Mature et soignée
+    description: 'Note mature et soignée',
+    class: 'stage-evergreen',
+  },
+} as const;
+
+const { emoji, label, description, class: cls } = config[stage];
+const sizeClass = size === 'sm' ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1';
+---
+
+<span
+  class:list={['stage-badge', cls, sizeClass]}
+  title={description}
+>
+  <span aria-hidden="true">{emoji}</span>
+  <span>{label}</span>
+</span>
+
+<style>
+  .stage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    user-select: none;
+  }
+
+  .stage-seedling {
+    background-color: var(--color-seedling-bg);
+    color: var(--color-seedling-fg);
+    border-color: var(--color-seedling-border);
+  }
+
+  .stage-budding {
+    background-color: var(--color-budding-bg);
+    color: var(--color-budding-fg);
+    border-color: var(--color-budding-border);
+  }
+
+  .stage-evergreen {
+    background-color: var(--color-evergreen-bg);
+    color: var(--color-evergreen-fg);
+    border-color: var(--color-evergreen-border);
+  }
+</style>

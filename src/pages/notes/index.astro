@@ -1,0 +1,216 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StageBadge from '../../components/StageBadge.astro';
+import { getCollection } from 'astro:content';
+
+const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+
+// Trie par date décroissante
+const sorted = allNotes.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Collecte tous les tags uniques
+const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
+
+// Filtres via query params (fonctionnent côté client via JS)
+// Les valeurs initiales sont vides (affiche tout)
+---
+
+<BaseLayout title="Notes" description="Index de toutes les notes du garden.">
+  <header style="margin-bottom: 3rem;">
+    <h1 style="font-size: 2rem; margin: 0 0 0.5rem;">Notes</h1>
+    <p style="color: var(--color-ink-muted); margin: 0;">
+      {allNotes.length} note{allNotes.length > 1 ? 's' : ''} dans le jardin
+    </p>
+  </header>
+
+  <!-- ── Filtres ── -->
+  <div style="margin-bottom: 2.5rem; display: flex; flex-direction: column; gap: 1rem;">
+
+    <!-- Filtre par stage -->
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
+      <span style="font-size: 0.8rem; font-weight: 600; color: var(--color-ink-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.5rem;">
+        Stade
+      </span>
+      <button class="filter-btn stage-btn active" data-stage="" onclick="filterStage('')">Tous</button>
+      <button class="filter-btn stage-btn" data-stage="seedling" onclick="filterStage('seedling')">🌱 Graines</button>
+      <button class="filter-btn stage-btn" data-stage="budding" onclick="filterStage('budding')">🌿 Pousses</button>
+      <button class="filter-btn stage-btn" data-stage="evergreen" onclick="filterStage('evergreen')">🌳 Arbres</button>
+    </div>
+
+    <!-- Filtre par tag -->
+    {allTags.length > 0 && (
+      <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: 600; color: var(--color-ink-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.5rem;">
+          Tags
+        </span>
+        <button class="filter-btn tag-btn active" data-tag="" onclick="filterTag('')">Tous</button>
+        {allTags.map((tag) => (
+          <button class="filter-btn tag-btn" data-tag={tag} onclick={`filterTag('${tag}')`}>
+            #{tag}
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <!-- ── Liste des notes ── -->
+  <div id="notes-count" style="font-size: 0.85rem; color: var(--color-ink-muted); margin-bottom: 1.25rem;"></div>
+
+  <ul id="notes-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0;">
+    {sorted.map((note) => (
+      <li
+        class="note-item"
+        data-stage={note.data.stage}
+        data-tags={note.data.tags.join(',')}
+      >
+        <a
+          href={`/notes/${note.id}`}
+          class="note-card"
+        >
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 0;">
+              <h2 style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; margin: 0 0 0.35rem; color: var(--color-ink);">
+                {note.data.title}
+              </h2>
+              {note.data.description && (
+                <p style="font-size: 0.875rem; color: var(--color-ink-muted); margin: 0 0 0.6rem; line-height: 1.5;">
+                  {note.data.description}
+                </p>
+              )}
+              <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center;">
+                <time
+                  datetime={note.data.date.toISOString()}
+                  style="font-size: 0.8rem; color: var(--color-ink-muted);"
+                >
+                  {note.data.date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+                {note.data.tags.map((tag) => (
+                  <span style="font-size: 0.75rem; color: var(--color-ink-muted);">· #{tag}</span>
+                ))}
+              </div>
+            </div>
+            <div style="flex-shrink: 0; padding-top: 0.15rem;">
+              <StageBadge stage={note.data.stage} size="sm" />
+            </div>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <p id="empty-msg" style="display: none; color: var(--color-ink-muted); font-style: italic; margin-top: 2rem;">
+    Aucune note ne correspond à ces filtres.
+  </p>
+</BaseLayout>
+
+<style>
+  .filter-btn {
+    display: inline-block;
+    padding: 0.3em 0.85em;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-ink-muted);
+    cursor: pointer;
+    transition: all 150ms;
+    font-family: var(--font-sans);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    border-color: var(--color-accent-500);
+    background: var(--color-accent-50);
+    color: var(--color-accent-700);
+  }
+
+  .note-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .note-card {
+    display: block;
+    padding: 1.25rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background 150ms;
+  }
+
+  .note-card:hover h2 {
+    color: var(--color-accent-600);
+  }
+</style>
+
+<script>
+  // État courant des filtres
+  let currentStage = '';
+  let currentTag = '';
+
+  // Lit les query params au chargement
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('stage')) { currentStage = params.get('stage')!; activateStageBtn(currentStage); }
+  if (params.get('tag'))   { currentTag   = params.get('tag')!;   activateTagBtn(currentTag); }
+  applyFilters();
+
+  function filterStage(stage: string) {
+    currentStage = stage;
+    activateStageBtn(stage);
+    applyFilters();
+    updateURL();
+  }
+
+  function filterTag(tag: string) {
+    currentTag = tag;
+    activateTagBtn(tag);
+    applyFilters();
+    updateURL();
+  }
+
+  function activateStageBtn(stage: string) {
+    document.querySelectorAll<HTMLButtonElement>('.stage-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.stage === stage);
+    });
+  }
+
+  function activateTagBtn(tag: string) {
+    document.querySelectorAll<HTMLButtonElement>('.tag-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.tag === tag);
+    });
+  }
+
+  function applyFilters() {
+    const items = document.querySelectorAll<HTMLLIElement>('.note-item');
+    let visible = 0;
+
+    items.forEach((item) => {
+      const stageMatch = !currentStage || item.dataset.stage === currentStage;
+      const tags = (item.dataset.tags ?? '').split(',').filter(Boolean);
+      const tagMatch = !currentTag || tags.includes(currentTag);
+      const show = stageMatch && tagMatch;
+      item.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    const countEl = document.getElementById('notes-count');
+    if (countEl) {
+      countEl.textContent = visible === items.length
+        ? ''
+        : `${visible} résultat${visible > 1 ? 's' : ''}`;
+    }
+
+    const emptyMsg = document.getElementById('empty-msg');
+    if (emptyMsg) emptyMsg.style.display = visible === 0 ? '' : 'none';
+  }
+
+  function updateURL() {
+    const p = new URLSearchParams();
+    if (currentStage) p.set('stage', currentStage);
+    if (currentTag)   p.set('tag',   currentTag);
+    const qs = p.toString();
+    history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+  }
+
+  // Expose aux onclick inline
+  (window as any).filterStage = filterStage;
+  (window as any).filterTag   = filterTag;
+</script>

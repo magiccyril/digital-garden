@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Directions — digitalgarden</title>
+<style>
+  /* ============================================================
+     TOKENS (from visual foundation)
+  ============================================================ */
+  :root {
+    --font-serif: 'Lora', Georgia, serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --color-accent-50:  oklch(97% 0.02 160);
+    --color-accent-100: oklch(93% 0.05 160);
+    --color-accent-200: oklch(87% 0.08 160);
+    --color-accent-500: oklch(65% 0.14 160);
+    --color-accent-600: oklch(55% 0.14 160);
+    --color-accent-700: oklch(45% 0.13 160);
+    --color-accent-900: oklch(30% 0.08 160);
+    --color-accent:       var(--color-accent-500);
+    --color-accent-hover: var(--color-accent-600);
+
+    --color-surface:    oklch(98% 0.005 90);
+    --color-ink:        oklch(18% 0.01 250);
+    --color-ink-muted:  oklch(50% 0.01 250);
+    --color-border:     oklch(88% 0.01 250);
+
+    --space-1:  4px;
+    --space-2:  8px;
+    --space-3:  12px;
+    --space-4:  16px;
+    --space-5:  20px;
+    --space-6:  24px;
+    --space-8:  32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.125rem;
+    --text-xl:   1.25rem;
+    --text-2xl:  1.5rem;
+    --text-3xl:  2rem;
+
+    --radius-sm:   4px;
+    --radius-md:   8px;
+    --radius-lg:   12px;
+    --radius-full: 9999px;
+
+    --duration-fast: 150ms;
+    --duration-base: 200ms;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: #f0f0f0;
+    color: var(--color-ink);
+    font-size: 112.5%;
+    line-height: 1.7;
+  }
+
+  /* ============================================================
+     LAYOUT NAVIGATION
+  ============================================================ */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--color-ink);
+    color: var(--color-surface);
+    padding: var(--space-3) var(--space-8);
+    display: flex; align-items: center; gap: var(--space-6);
+    font-size: var(--text-sm);
+  }
+  .nav strong { font-family: var(--font-serif); font-size: var(--text-base); }
+  .nav a {
+    color: oklch(75% 0.03 250);
+    text-decoration: none;
+    transition: color var(--duration-fast) ease-in-out;
+  }
+  .nav a:hover { color: var(--color-surface); }
+  .nav a.active { color: var(--color-accent-200); font-weight: 500; }
+
+  .directions-grid {
+    max-width: 1400px;
+    margin: var(--space-8) auto;
+    padding: 0 var(--space-8);
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .direction-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 2px 8px oklch(0% 0 0 / 0.08);
+  }
+
+  .direction-header {
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    display: flex; align-items: baseline; gap: var(--space-4);
+  }
+  .direction-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-muted);
+  }
+  .direction-name {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-ink);
+  }
+  .direction-desc {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin-left: auto;
+  }
+
+  .mockup {
+    background: var(--color-surface);
+    padding: 0;
+  }
+
+  /* ============================================================
+     DIRECTION 1 — Aéré (Maggie Appleton influence)
+  ============================================================ */
+  .d1-site {
+    max-width: 900px; margin: 0 auto;
+    padding: var(--space-10) var(--space-8);
+  }
+  .d1-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-16);
+  }
+  .d1-logo {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .d1-nav-links { display: flex; gap: var(--space-6); }
+  .d1-nav-link {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) ease-in-out;
+  }
+  .d1-nav-link:hover { color: var(--color-ink); }
+
+  .d1-hero {
+    margin-bottom: var(--space-16);
+  }
+  .d1-hero h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+    color: var(--color-ink);
+  }
+  .d1-hero p {
+    font-size: var(--text-lg);
+    color: var(--color-ink-muted);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  .d1-section-title {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .d1-notes-grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  .d1-note-card {
+    padding: var(--space-5) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: var(--space-4);
+    text-decoration: none;
+    transition: border-color var(--duration-fast), transform var(--duration-fast);
+    background: var(--color-surface);
+    cursor: pointer;
+  }
+  .d1-note-card:hover {
+    border-color: var(--color-accent-200);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px oklch(0% 0 0 / 0.06);
+  }
+  .d1-note-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    color: var(--color-ink);
+    font-weight: 400;
+    transition: color var(--duration-fast);
+    line-height: 1.4;
+  }
+  .d1-note-card:hover .d1-note-title { color: var(--color-accent); }
+  .d1-note-meta {
+    display: flex; gap: var(--space-2); align-items: center; flex-shrink: 0;
+  }
+  .d1-note-date {
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+  }
+  .d1-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: var(--text-xs);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-full);
+    font-family: var(--font-sans);
+    white-space: nowrap;
+  }
+  .d1-badge.seedling { background: oklch(93% 0.08 145); color: oklch(35% 0.12 145); }
+  .d1-badge.budding  { background: oklch(93% 0.08 80);  color: oklch(35% 0.12 80); }
+  .d1-badge.evergreen { background: var(--color-accent-100); color: var(--color-accent-700); }
+
+  /* ============================================================
+     DIRECTION 2 — Compact (liste dense)
+  ============================================================ */
+  .d2-site {
+    max-width: 900px; margin: 0 auto;
+    padding: var(--space-8);
+  }
+  .d2-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: var(--space-4) 0;
+    border-bottom: 2px solid var(--color-ink);
+    margin-bottom: var(--space-10);
+  }
+  .d2-logo {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    color: var(--color-ink);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  .d2-notes-list { display: grid; gap: 0; }
+  .d2-note-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background var(--duration-fast);
+  }
+  .d2-note-row:hover { padding-left: var(--space-2); transition: padding var(--duration-fast); }
+  .d2-note-row:hover .d2-note-title { color: var(--color-accent); }
+  .d2-note-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    color: var(--color-ink);
+    font-weight: 400;
+    transition: color var(--duration-fast);
+  }
+  .d2-note-tags { display: flex; gap: var(--space-1); }
+  .d2-tag {
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+    padding: 1px var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+  .d2-note-date {
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+     DIRECTION 3 — Lecture (note individuelle)
+  ============================================================ */
+  .d3-site {
+    max-width: 900px; margin: 0 auto;
+    padding: var(--space-8);
+  }
+  .d3-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-10);
+  }
+  .d3-back {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    display: flex; align-items: center; gap: var(--space-1);
+    transition: color var(--duration-fast);
+  }
+  .d3-back:hover { color: var(--color-accent); }
+
+  .d3-note {
+    max-width: 68ch;
+    margin: 0 auto;
+  }
+  .d3-note-header { margin-bottom: var(--space-10); }
+  .d3-note-meta {
+    display: flex; gap: var(--space-3); align-items: center;
+    margin-bottom: var(--space-4);
+  }
+  .d3-note-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-ink);
+    margin-bottom: var(--space-4);
+  }
+  .d3-prose p {
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    line-height: 1.8;
+    color: var(--color-ink);
+    margin-bottom: var(--space-5);
+  }
+  .d3-wiki-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .d3-wiki-link-new {
+    color: var(--color-ink-muted);
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 3px;
+  }
+  .d3-blockquote {
+    border-left: 3px solid var(--color-accent-200);
+    padding-left: var(--space-5);
+    margin: var(--space-6) 0;
+    color: var(--color-ink-muted);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+  .d3-backlinks {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .d3-backlinks-title {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-4);
+  }
+  .d3-backlink {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--duration-fast);
+  }
+  .d3-backlink:hover { color: var(--color-accent-hover); }
+
+  /* ============================================================
+     DIRECTION 4 — Styleguide (page /styleguide)
+  ============================================================ */
+  .d4-site {
+    max-width: 900px; margin: 0 auto;
+    padding: var(--space-8);
+  }
+  .d4-page-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    margin-bottom: var(--space-2);
+  }
+  .d4-page-desc {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .d4-section { margin-bottom: var(--space-12); }
+  .d4-section-title {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .d4-token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+  .d4-color-swatch {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+  .d4-swatch-preview { height: 48px; }
+  .d4-swatch-label {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--color-ink-muted);
+    background: white;
+    border-top: 1px solid var(--color-border);
+  }
+  .d4-component-row {
+    display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center;
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-3);
+  }
+  .d4-component-name {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--color-ink-muted);
+    min-width: 120px;
+  }
+
+  /* ============================================================
+     SECTION LABELS
+  ============================================================ */
+  .direction-badge {
+    display: inline-block;
+    font-size: var(--text-xs);
+    padding: 2px var(--space-3);
+    border-radius: var(--radius-full);
+    font-weight: 500;
+  }
+  .badge-recommended { background: var(--color-accent-100); color: var(--color-accent-700); }
+  .badge-variant { background: oklch(93% 0.03 250); color: var(--color-ink-muted); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <strong>digitalgarden — Design Directions</strong>
+  <a href="#d1" class="active">1. Aéré</a>
+  <a href="#d2">2. Compact</a>
+  <a href="#d3">3. Note</a>
+  <a href="#d4">4. Styleguide</a>
+</nav>
+
+<div class="directions-grid">
+
+  <!-- ============================================================
+       DIRECTION 1 — Aéré (homepage)
+  ============================================================ -->
+  <div class="direction-card" id="d1">
+    <div class="direction-header">
+      <span class="direction-label">Direction 1</span>
+      <span class="direction-name">Homepage — Aérée</span>
+      <span class="direction-badge badge-recommended">Recommandée</span>
+      <span class="direction-desc">Inspirée de maggieappleton.com — whitespace généreux, cards avec border</span>
+    </div>
+    <div class="mockup">
+      <div class="d1-site">
+        <header class="d1-header">
+          <a class="d1-logo" href="#">Cyril's Garden</a>
+          <nav class="d1-nav-links">
+            <a class="d1-nav-link" href="#">Notes</a>
+            <a class="d1-nav-link" href="#">À propos</a>
+          </nav>
+        </header>
+
+        <section class="d1-hero">
+          <h1>Un jardin de pensées en croissance</h1>
+          <p>Notes personnelles, idées en cours, réflexions sur la tech et l'auto-hébergement. Mis à jour en continu depuis Obsidian.</p>
+        </section>
+
+        <div class="d1-section-title">Notes récentes</div>
+        <div class="d1-notes-grid">
+          <a class="d1-note-card" href="#">
+            <div>
+              <div class="d1-note-title">Le paradigme @theme de Tailwind v4 expliqué</div>
+            </div>
+            <div class="d1-note-meta">
+              <span class="d1-note-date">12 avr. 2026</span>
+              <span class="d1-badge evergreen">🌿 evergreen</span>
+            </div>
+          </a>
+          <a class="d1-note-card" href="#">
+            <div>
+              <div class="d1-note-title">Pourquoi j'auto-héberge mes services</div>
+            </div>
+            <div class="d1-note-meta">
+              <span class="d1-note-date">8 avr. 2026</span>
+              <span class="d1-badge budding">🌱 budding</span>
+            </div>
+          </a>
+          <a class="d1-note-card" href="#">
+            <div>
+              <div class="d1-note-title">Notes sur Syncthing et la synchronisation bidirectionnelle</div>
+            </div>
+            <div class="d1-note-meta">
+              <span class="d1-note-date">2 avr. 2026</span>
+              <span class="d1-badge seedling">🌱 seedling</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DIRECTION 2 — Compact (index /notes)
+  ============================================================ -->
+  <div class="direction-card" id="d2">
+    <div class="direction-header">
+      <span class="direction-label">Direction 2</span>
+      <span class="direction-name">Index Notes — Compact</span>
+      <span class="direction-badge badge-variant">Variante</span>
+      <span class="direction-desc">Liste dense — plus de notes visibles, style éditorial</span>
+    </div>
+    <div class="mockup">
+      <div class="d2-site">
+        <header class="d2-header">
+          <a class="d2-logo" href="#">Cyril's Garden</a>
+          <div style="display:flex;gap:var(--space-4);font-size:var(--text-sm);color:var(--color-ink-muted)">
+            <span>24 notes publiées</span>
+          </div>
+        </header>
+
+        <div class="d2-notes-list">
+          <div class="d2-note-row">
+            <span class="d2-note-title">Le paradigme @theme de Tailwind v4 expliqué</span>
+            <div class="d2-note-tags">
+              <span class="d2-tag">tailwind</span>
+              <span class="d2-tag">css</span>
+            </div>
+            <span class="d2-note-date">2026-04-12</span>
+          </div>
+          <div class="d2-note-row">
+            <span class="d2-note-title">Pourquoi j'auto-héberge mes services</span>
+            <div class="d2-note-tags">
+              <span class="d2-tag">homelab</span>
+            </div>
+            <span class="d2-note-date">2026-04-08</span>
+          </div>
+          <div class="d2-note-row">
+            <span class="d2-note-title">Notes sur Syncthing</span>
+            <div class="d2-note-tags">
+              <span class="d2-tag">sync</span>
+              <span class="d2-tag">homelab</span>
+            </div>
+            <span class="d2-note-date">2026-04-02</span>
+          </div>
+          <div class="d2-note-row">
+            <span class="d2-note-title">Astro pour un site statique — retour d'expérience</span>
+            <div class="d2-note-tags">
+              <span class="d2-tag">astro</span>
+              <span class="d2-tag">dev</span>
+            </div>
+            <span class="d2-note-date">2026-03-28</span>
+          </div>
+          <div class="d2-note-row">
+            <span class="d2-note-title">SWAG — reverse proxy avec certbot intégré</span>
+            <div class="d2-note-tags">
+              <span class="d2-tag">homelab</span>
+              <span class="d2-tag">docker</span>
+            </div>
+            <span class="d2-note-date">2026-03-15</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DIRECTION 3 — Page note individuelle
+  ============================================================ -->
+  <div class="direction-card" id="d3">
+    <div class="direction-header">
+      <span class="direction-label">Direction 3</span>
+      <span class="direction-name">Note individuelle — Lecture</span>
+      <span class="direction-badge badge-recommended">Recommandée</span>
+      <span class="direction-desc">Prose centrée, wiki-links, backlinks — l'expérience définissante</span>
+    </div>
+    <div class="mockup">
+      <div class="d3-site">
+        <header class="d3-header">
+          <a class="d3-back" href="#">← Toutes les notes</a>
+          <div style="display:flex;gap:var(--space-3);align-items:center;font-size:var(--text-sm)">
+            <a style="color:var(--color-ink-muted);text-decoration:none" href="#">Notes</a>
+            <a style="color:var(--color-ink-muted);text-decoration:none" href="#">À propos</a>
+          </div>
+        </header>
+
+        <article class="d3-note">
+          <header class="d3-note-header">
+            <div class="d3-note-meta">
+              <span class="d1-badge evergreen">🌿 evergreen</span>
+              <span style="font-size:var(--text-xs);color:var(--color-ink-muted)">12 avril 2026</span>
+              <span style="font-size:var(--text-xs);color:var(--color-ink-muted)">·</span>
+              <span style="font-size:var(--text-xs);color:var(--color-ink-muted)">css, tailwind</span>
+            </div>
+            <h1 class="d3-note-title">Le paradigme @theme de Tailwind v4 expliqué</h1>
+          </header>
+
+          <div class="d3-prose">
+            <p>Tailwind v4 introduit une nouvelle façon de définir les tokens de design : le bloc <code style="font-family:var(--font-mono);font-size:0.9em;background:var(--color-accent-50);padding:1px 4px;border-radius:var(--radius-sm)">@theme</code> dans le CSS. Ce changement est fondamental car il aligne Tailwind avec les <a class="d3-wiki-link" href="#">CSS custom properties</a> natives.</p>
+
+            <blockquote class="d3-blockquote">
+              Les tokens définis dans @theme deviennent automatiquement des classes utilitaires Tailwind ET des variables CSS accessibles partout.
+            </blockquote>
+
+            <p>Contrairement à Tailwind v3 où la configuration se faisait en JavaScript, v4 fonctionne entièrement en CSS. Cela signifie que votre <a class="d3-wiki-link" href="#">design system</a> est maintenant consultable dans les DevTools sans avoir à lire un fichier de config.</p>
+
+            <p>Un lien vers une note qui n'existe pas encore ressemble à <a class="d3-wiki-link-new" href="#">cette note sur les CSS layers</a> — visuellement distinct pour indiquer que l'idée n'est pas encore développée.</p>
+          </div>
+
+          <div class="d3-backlinks">
+            <div class="d3-backlinks-title">Mentionné dans</div>
+            <a class="d3-backlink" href="#">Design system — refonte digitalgarden</a>
+            <a class="d3-backlink" href="#">Notes sur Astro et le SSG</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DIRECTION 4 — Page /styleguide
+  ============================================================ -->
+  <div class="direction-card" id="d4">
+    <div class="direction-header">
+      <span class="direction-label">Direction 4</span>
+      <span class="direction-name">Page /styleguide — Documentation vivante</span>
+      <span class="direction-badge badge-recommended">Recommandée</span>
+      <span class="direction-desc">Tokens + composants visibles en contexte réel</span>
+    </div>
+    <div class="mockup">
+      <div class="d4-site">
+        <h1 class="d4-page-title">Styleguide</h1>
+        <p class="d4-page-desc">Design system de digitalgarden — tokens et composants disponibles. Consulter avant d'ajouter un style.</p>
+
+        <!-- Couleurs -->
+        <section class="d4-section">
+          <div class="d4-section-title">Couleurs</div>
+          <div class="d4-token-grid">
+            <div class="d4-color-swatch">
+              <div class="d4-swatch-preview" style="background:var(--color-accent-500)"></div>
+              <div class="d4-swatch-label">--color-accent</div>
+            </div>
+            <div class="d4-color-swatch">
+              <div class="d4-swatch-preview" style="background:var(--color-surface);border-bottom:1px solid var(--color-border)"></div>
+              <div class="d4-swatch-label">--color-surface</div>
+            </div>
+            <div class="d4-color-swatch">
+              <div class="d4-swatch-preview" style="background:var(--color-ink)"></div>
+              <div class="d4-swatch-label">--color-ink</div>
+            </div>
+            <div class="d4-color-swatch">
+              <div class="d4-swatch-preview" style="background:var(--color-ink-muted)"></div>
+              <div class="d4-swatch-label">--color-ink-muted</div>
+            </div>
+            <div class="d4-color-swatch">
+              <div class="d4-swatch-preview" style="background:var(--color-border)"></div>
+              <div class="d4-swatch-label">--color-border</div>
+            </div>
+            <div class="d4-color-swatch">
+              <div class="d4-swatch-preview" style="background:var(--color-accent-100)"></div>
+              <div class="d4-swatch-label">--color-accent-100</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Badges -->
+        <section class="d4-section">
+          <div class="d4-section-title">StageBadge</div>
+          <div class="d4-component-row">
+            <span class="d4-component-name">StageBadge</span>
+            <span class="d1-badge seedling">🌱 seedling</span>
+            <span class="d1-badge budding">🌿 budding</span>
+            <span class="d1-badge evergreen">🌲 evergreen</span>
+          </div>
+        </section>
+
+        <!-- Tags -->
+        <section class="d4-section">
+          <div class="d4-section-title">Tag</div>
+          <div class="d4-component-row">
+            <span class="d4-component-name">Tag</span>
+            <span class="d2-tag">css</span>
+            <span class="d2-tag">tailwind</span>
+            <span class="d2-tag">homelab</span>
+            <span class="d2-tag">astro</span>
+          </div>
+        </section>
+
+        <!-- NoteCard -->
+        <section class="d4-section">
+          <div class="d4-section-title">NoteCard</div>
+          <a class="d1-note-card" href="#" style="display:flex">
+            <div>
+              <div class="d1-note-title">Exemple de NoteCard avec un titre de longueur normale</div>
+            </div>
+            <div class="d1-note-meta">
+              <span class="d1-note-date">12 avr. 2026</span>
+              <span class="d1-badge evergreen">🌿 evergreen</span>
+            </div>
+          </a>
+        </section>
+
+        <!-- Wiki-links -->
+        <section class="d4-section">
+          <div class="d4-section-title">WikiLink</div>
+          <div class="d4-component-row" style="font-family:var(--font-serif)">
+            <span class="d4-component-name">WikiLink</span>
+            <span>Texte avec <a class="d3-wiki-link" href="#">lien résolu</a> et <a class="d3-wiki-link-new" href="#">lien non résolu</a></span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center;padding:var(--space-10);color:var(--color-ink-muted);font-size:var(--text-sm)">
+  digitalgarden — Design Directions v1 — 2026-04-13
+</div>
+
+</body>
+</html>

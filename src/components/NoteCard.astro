@@ -1,0 +1,103 @@
+---
+import StageBadge from './StageBadge.astro';
+import Tag from './Tag.astro';
+
+interface Props {
+  title: string;
+  slug: string;
+  date: Date;
+  stage: 'seedling' | 'budding' | 'evergreen';
+  description?: string;
+  tags?: string[];
+}
+
+const { title, slug, date, stage, description, tags = [] } = Astro.props;
+---
+
+<a href={`/notes/${slug}`} class="note-card">
+  <div class="note-card__body">
+    <div class="note-card__content">
+      <h2 class="note-card__title">{title}</h2>
+      {description && (
+        <p class="note-card__description">{description}</p>
+      )}
+      <div class="note-card__meta">
+        <time datetime={date.toISOString()} class="note-card__date">
+          {date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' })}
+        </time>
+        {tags.map((tag) => <Tag label={tag} />)}
+      </div>
+    </div>
+    <div class="note-card__badge">
+      <StageBadge stage={stage} size="sm" />
+    </div>
+  </div>
+</a>
+
+<style>
+  .note-card {
+    display: block;
+    padding: var(--space-lg) 0;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+    will-change: transform;
+  }
+
+  .note-card:hover {
+    transform: translateY(-1px);
+    /* box-shadow : utilise la couleur --color-ink à 8% d'opacité — pas de token shadow dans ce projet */
+    box-shadow: 0 4px 12px oklch(18% 0.01 250 / 0.08);
+  }
+
+  .note-card:hover .note-card__title {
+    color: var(--color-accent);
+  }
+
+  .note-card__body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .note-card__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .note-card__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    margin: 0 0 var(--space-xs);
+    color: var(--color-ink);
+    transition: color var(--duration-fast) ease;
+    line-height: 1.35;
+  }
+
+  .note-card__description {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin: 0 0 var(--space-sm);
+    line-height: 1.5;
+  }
+
+  .note-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    align-items: center;
+  }
+
+  .note-card__date {
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+  }
+
+  .note-card__badge {
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+  }
+</style>

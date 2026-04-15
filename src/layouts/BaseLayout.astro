@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Digital garden : notes et réflexions en croissance.' } = Astro.props;
+
+// PERSONNALISE : remplace par ton nom / titre du site
+const SITE_NAME = '18 rue Divona - Digital Garden';
+const SITE_AUTHOR = 'Cyril G';
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE_AUTHOR} />
+    <title>{title === SITE_NAME ? title : `${title} - ${SITE_NAME}`}</title>
+
+    <!-- PERSONNALISE : remplace par tes polices préférées (Google Fonts, Bunny Fonts, etc.) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body style="background-color: var(--color-surface); color: var(--color-ink);">
+    <!-- Navigation -->
+    <header style="border-bottom: 1px solid var(--color-border);">
+      <nav style="max-width: 900px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+        <a
+          href="/"
+          style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; color: var(--color-ink); text-decoration: none;"
+        >
+          {SITE_NAME}
+        </a>
+        <div style="display: flex; gap: 1.75rem; font-size: 0.9rem;">
+          <a href="/notes" style="color: var(--color-ink-muted); text-decoration: none;" class="nav-link">Notes</a>
+          <!-- PERSONNALISE : ajoute d'autres liens de navigation ici -->
+          <!-- <a href="/about" style="color: var(--color-ink-muted); text-decoration: none;" class="nav-link">À propos</a> -->
+        </div>
+      </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main style="max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 6rem;">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--color-border); margin-top: auto;">
+      <div style="max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--color-ink-muted);">
+        <span>{SITE_AUTHOR} - {new Date().getFullYear()}</span>
+        <!-- PERSONNALISE : liens de footer -->
+        <span>Cultivé avec soin 🌱</span>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .nav-link:hover {
+    color: var(--color-ink) !important;
+  }
+</style>

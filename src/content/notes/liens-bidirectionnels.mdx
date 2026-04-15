@@ -1,0 +1,37 @@
+---
+title: "Liens bidirectionnels"
+date: 2024-02-20
+stage: budding
+tags: [outils, knowledge-management, Obsidian]
+publish: true
+description: "Comment les backlinks transforment une collection de notes en un vrai réseau de connaissances."
+---
+
+Dans un système de notes classique, un lien est **unidirectionnel** : la note A pointe vers la note B, mais B n'a aucune idée qu'elle est mentionnée.
+
+Les liens bidirectionnels changent ça : quand A mentionne B, B sait qu'elle est mentionnée par A.
+
+## Pourquoi c'est important
+
+Sans bidirectionnalité, le réseau de notes est un graphe orienté qu'on ne peut traverser que dans un sens.
+Avec les backlinks, chaque note devient un **nœud** qui connaît toutes ses connexions entrantes.
+
+Ça change la façon de naviguer : on peut partir de n'importe où et découvrir des connexions qu'on n'avait pas anticipées.
+
+## Dans ce garden
+
+Ce site implémente les backlinks automatiquement :
+les `[[wikilinks]]` dans les notes MDX sont résolus vers les pages correspondantes, et chaque page affiche les notes qui la mentionnent.
+
+Vois la section "Mentionné dans" en bas de cette page pour un exemple.
+
+## Outils qui supportent les backlinks
+
+- **Obsidian** — le plus populaire pour les notes locales
+- **Roam Research** — précurseur du mouvement
+- **Logseq** — open-source, orienté outliners
+- **Notion** — backlinks limités mais présents
+
+## Références
+
+- [[jardinage-numerique]] explore le concept plus large dont les backlinks font partie

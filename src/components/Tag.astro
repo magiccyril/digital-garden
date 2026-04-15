@@ -1,0 +1,41 @@
+---
+interface Props {
+  label: string;
+  href?: string;
+}
+
+const { label, href } = Astro.props;
+---
+
+{href ? (
+  <a href={href} class="tag tag--interactive">#{label}</a>
+) : (
+  <span class="tag tag--static">#{label}</span>
+)}
+
+<style>
+  .tag {
+    display: inline-block;
+    padding: 0.15em 0.7em;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    background: var(--color-border);
+    color: var(--color-ink-muted);
+    font-family: var(--font-sans);
+  }
+
+  .tag--interactive {
+    text-decoration: none;
+    transition: background var(--duration-fast) ease;
+    cursor: pointer;
+  }
+
+  .tag--interactive:hover {
+    background: var(--color-accent-100);
+    color: var(--color-ink);
+  }
+
+  .tag--static {
+    user-select: none;
+  }
+</style>

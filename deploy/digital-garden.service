@@ -1,0 +1,56 @@
+# digital-garden.service
+# Unit systemd pour le watcher de build automatique du digital garden.
+#
+# INSTALLATION :
+#   sudo cp deploy/digital-garden.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now digital-garden
+#
+# LOGS :
+#   journalctl -u digital-garden -f          # logs systemd temps réel
+#   tail -f /opt/digital-garden/build.log    # logs de build applicatifs
+
+[Unit]
+Description=Digital Garden — watcher Astro build
+Documentation=file:///opt/digital-garden/DEPLOY.md
+# Démarre après que Syncthing soit prêt (si tu l'utilises comme service)
+# After=syncthing@YOUR_USER.service
+After=network.target
+
+[Service]
+Type=simple
+
+# ── À ADAPTER : utilisateur qui possède le projet ──────────────────────────────
+User=YOUR_USER
+Group=YOUR_USER
+
+# ── À ADAPTER : chemin absolu vers la racine du projet ────────────────────────
+WorkingDirectory=/opt/digital-garden
+ExecStart=/opt/digital-garden/watch-and-build.sh
+
+# Redémarre automatiquement si le script plante
+Restart=on-failure
+RestartSec=10s
+
+# Laisse le temps au build de finir avant de forcer l'arrêt
+TimeoutStopSec=60s
+
+# ── Isolation (optionnel — durcissement systemd) ───────────────────────────────
+# Décommente ces lignes pour restreindre les permissions du service.
+# Assure-toi d'abord que le chemin du projet et du dossier dist/ sont accessibles.
+# PrivateTmp=true
+# NoNewPrivileges=true
+# ProtectSystem=strict
+# ReadWritePaths=/opt/digital-garden
+
+# Variables d'environnement
+Environment=NODE_ENV=production
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Stdout/stderr vont dans journald ET dans build.log via le script
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=digital-garden
+
+[Install]
+WantedBy=multi-user.target

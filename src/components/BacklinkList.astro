@@ -1,0 +1,71 @@
+---
+interface Props {
+  backlinks: Array<{ title: string; slug: string }>;
+}
+
+const { backlinks } = Astro.props;
+---
+
+{backlinks.length > 0 && (
+  <aside class="backlinks">
+    <h2 class="backlinks__heading">Mentionné dans</h2>
+    <ul class="backlinks__list">
+      {backlinks.map(({ title, slug }) => (
+        <li class="backlinks__item">
+          <a href={`/notes/${slug}`} class="backlinks__link">
+            <span class="backlinks__arrow" aria-hidden="true">←</span>
+            {title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
+
+<style>
+  .backlinks {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .backlinks__heading {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;   /* pas de token letter-spacing — valeur décorative */
+    text-transform: uppercase; /* pas de token text-transform — valeur décorative */
+    color: var(--color-ink-muted);
+    margin: 0 0 var(--space-md);
+  }
+
+  .backlinks__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .backlinks__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    color: var(--color-ink);
+    font-size: var(--text-base);
+    transition: color var(--duration-fast) ease;
+  }
+
+  .backlinks__link:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .backlinks__arrow {
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+</style>
