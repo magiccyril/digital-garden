@@ -37,17 +37,20 @@ const { title, slug, date, stage, description, tags = [] } = Astro.props;
 <style>
   .note-card {
     display: block;
-    padding: var(--space-lg) 0;
+    padding: var(--space-lg) var(--space-md);
+    margin-left: calc(-1 * var(--space-md));
+    margin-right: calc(-1 * var(--space-md));
+    border-radius: var(--radius-md, 8px);
     text-decoration: none;
     color: inherit;
-    transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+    transition: background var(--duration-fast) ease, transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
     will-change: transform;
   }
 
   .note-card:hover {
+    background: oklch(18% 0.01 250 / 0.04);
     transform: translateY(-1px);
-    /* box-shadow : utilise la couleur --color-ink à 8% d'opacité — pas de token shadow dans ce projet */
-    box-shadow: 0 4px 12px oklch(18% 0.01 250 / 0.08);
+    box-shadow: 0 4px 16px oklch(18% 0.01 250 / 0.07);
   }
 
   .note-card:hover .note-card__title {
