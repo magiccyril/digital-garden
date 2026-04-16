@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: "2026-04-13"
-last_updated: "2026-04-16"  # updated by dev-story for 4-3
+last_updated: "2026-04-16"  # updated by dev-story for 5-2
 project: digitalgarden
 project_key: NOKEY
 tracking_system: file-system
@@ -70,11 +70,11 @@ development_status:
   4-1-migrer-notelayout-astro: review
   4-2-migrer-pages-index-astro-homepage: review
   4-3-migrer-pages-notes-index-astro-index-filtres: review
-  4-4-audit-final-et-nettoyage-dette-residuelle: backlog
+  4-4-audit-final-et-nettoyage-dette-residuelle: review
   epic-4-retrospective: optional
 
   # Epic 5 : Page Styleguide
-  epic-5: backlog
-  5-1-page-styleguide-avec-section-tokens: backlog
-  5-2-documentation-composants-dans-styleguide: backlog
+  epic-5: in-progress
+  5-1-page-styleguide-avec-section-tokens: review
+  5-2-documentation-composants-dans-styleguide: review
   epic-5-retrospective: optional

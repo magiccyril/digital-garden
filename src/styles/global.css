@@ -11,7 +11,6 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   /* Palette — couleur accent principale */
-  /* PERSONNALISE : change --color-accent-* pour ta couleur de marque */
   --color-accent-50: oklch(97% 0.02 160);
   --color-accent-100: oklch(92% 0.05 160);
   --color-accent-200: oklch(85% 0.09 160);
