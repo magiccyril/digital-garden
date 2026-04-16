@@ -21,6 +21,7 @@
 
   /* Fond et texte de base */
   --color-surface: oklch(99% 0.005 90);
+  --color-surface-hover: oklch(18% 0.01 250 / 0.04);
   --color-ink: oklch(18% 0.01 250);
   --color-ink-muted: oklch(50% 0.01 250);
   --color-border: oklch(88% 0.01 250);
