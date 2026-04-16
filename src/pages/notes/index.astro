@@ -38,7 +38,7 @@ const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
         <span class="filters__label">Tags</span>
         <button class="filter-btn tag-btn active" data-tag="" onclick="filterTag('')">Tous</button>
         {allTags.map((tag) => (
-          <button class="filter-btn tag-btn" data-tag={tag} onclick={`filterTag('${tag}')`}>
+          <button class="filter-btn tag-btn" data-tag={tag} onclick="filterTag(this.dataset.tag)">
             #{tag}
           </button>
         ))}

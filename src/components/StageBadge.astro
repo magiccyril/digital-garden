@@ -31,7 +31,7 @@ const config = {
 } as const;
 
 const { emoji, label, description, class: cls } = config[stage];
-const sizeClass = size === 'sm' ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1';
+const sizeClass = size === 'sm' ? 'stage-badge--sm' : 'stage-badge--md';
 ---
 
 <span
@@ -72,4 +72,8 @@ const sizeClass = size === 'sm' ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1';
     color: var(--color-evergreen-fg);
     border-color: var(--color-evergreen-border);
   }
+
+  /* Tailles — valeurs em-based propres au badge, sans équivalent token */
+  .stage-badge--sm { font-size: var(--text-xs); padding: 2px var(--space-sm); }
+  .stage-badge--md { font-size: var(--text-sm); padding: var(--space-xs) 12px; }
 </style>

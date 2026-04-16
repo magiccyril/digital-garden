@@ -9,15 +9,6 @@ import BacklinkList from '../components/BacklinkList.astro';
 import NavLink from '../components/NavLink.astro';
 
 // Données d'exemple pour les démos de composants
-const demoNote = {
-  title: 'Exemple de note avec un titre représentatif',
-  slug: 'example-note',
-  date: new Date('2026-03-01'),
-  stage: 'budding' as const,
-  description: 'Description facultative de la note, quelques mots.',
-  tags: ['design', 'tokens'],
-};
-
 const demoBacklinks = [
   { title: 'Note qui mentionne celle-ci', slug: 'other-note' },
   { title: 'Une autre note liée', slug: 'another-linked-note' },
