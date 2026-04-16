@@ -16,7 +16,7 @@ const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
 ---
 
 <BaseLayout title="Notes" description="Index de toutes les notes du garden.">
-  <header style="margin-bottom: 3rem;">
+  <header style="margin-bottom: 1rem;">
     <h1 style="font-size: 2rem; margin: 0 0 0.5rem;">Notes</h1>
     <p style="color: var(--color-ink-muted); margin: 0;">
       {allNotes.length} note{allNotes.length > 1 ? 's' : ''} dans le jardin
