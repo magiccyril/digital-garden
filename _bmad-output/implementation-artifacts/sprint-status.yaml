@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: "2026-04-13"
-last_updated: "2026-04-16"  # updated by dev-story for 5-2
+last_updated: "2026-04-16"  # updated by code-review for epic-2
 project: digitalgarden
 project_key: NOKEY
 tracking_system: file-system
@@ -50,10 +50,10 @@ development_status:
   epic-1-retrospective: optional
 
   # Epic 2 : Composants de Layout
-  epic-2: in-progress
-  2-1-composant-navlink-avec-etat-actif: review
-  2-2-composants-header-et-footer: review
-  2-3-composant-pagelayout-wrapper-de-page: review
+  epic-2: done
+  2-1-composant-navlink-avec-etat-actif: done
+  2-2-composants-header-et-footer: done
+  2-3-composant-pagelayout-wrapper-de-page: done
   epic-2-retrospective: optional
 
   # Epic 3 : Composants de Contenu

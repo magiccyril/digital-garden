@@ -1,6 +1,6 @@
 # Story 2.1 : Composant NavLink avec état actif
 
-Status: review
+Status: done
 
 ## Story
 
@@ -40,6 +40,11 @@ afin de savoir où je me trouve dans le site à tout moment.
 
 - [x] Tâche 2 : Valider le build (AC: #4)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Defer] Prop `active` sans valeur par défaut TypeScript [NavLink.astro:6] — deferred, pré-existant : l'interface exige la prop, Astro compile-time enforce le type ; ajouter `active = false` si une valeur par défaut défensive est souhaitée
+- [x] [Review][Defer] Prop `href` accepte les URIs `javascript:` sans validation [NavLink.astro:9] — deferred, pré-existant : actuellement seuls des liens hardcodés sont passés ; à adresser si NavLink est utilisé avec des hrefs dynamiques (CMS, frontmatter)
 
 ## Dev Notes
 

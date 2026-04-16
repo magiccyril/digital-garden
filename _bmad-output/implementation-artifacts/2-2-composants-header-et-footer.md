@@ -1,6 +1,6 @@
 # Story 2.2 : Composants Header et Footer
 
-Status: review
+Status: done
 
 ## Story
 
@@ -55,6 +55,11 @@ afin de pouvoir me déplacer dans le site depuis n'importe quelle page.
 
 - [x] Tâche 3 : Valider le build (AC: #5)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Patch] `Footer.astro` ne déclare pas `interface Props {}` dans le frontmatter [Footer.astro:1] — requis par les règles d'implémentation (project-context.md)
+- [x] [Review][Defer] `new Date().getFullYear()` figé à la date du build sur les déploiements statiques [Footer.astro:7] — deferred, pré-existant : comportement identique à BaseLayout.astro ; acceptable sauf si un rebuild annuel n'est pas garanti
 
 ## Dev Notes
 

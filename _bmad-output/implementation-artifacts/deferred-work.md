@@ -12,3 +12,15 @@
 - `.wiki-link--new { cursor: not-allowed }` sans `pointer-events: none` — lien visuellement désactivé mais fonctionnellement cliquable — pré-existant
 - `a:hover { color: var(--color-accent-700) }` écrase la couleur de `.wiki-link--new` au survol — pré-existant, besoin d'un override `a.wiki-link--new:hover`
 - `<body style="background-color: var(--color-surface); color: var(--color-ink);">` dans `BaseLayout.astro` duplique la règle `html` et bloque les overrides par utilitaires TW — pré-existant
+
+## Deferred from: code review de l'epic-2 (2026-04-16)
+
+- **2-1** `NavLink.astro:6` — Prop `active` sans valeur par défaut TypeScript ; ajouter `active = false` si une valeur par défaut défensive est souhaitée
+- **2-1** `NavLink.astro:9` — Prop `href` accepte les URIs `javascript:` sans validation ; à adresser si NavLink est utilisé avec des hrefs dynamiques (CMS, frontmatter)
+- **2-2** `Footer.astro:7` — `new Date().getFullYear()` figé à la date du build sur les déploiements statiques ; acceptable sauf si un rebuild annuel n'est pas garanti
+- **2-3** `PageLayout.astro:16-17` — `SITE_NAME` / `SITE_AUTHOR` dupliqués dans PageLayout et Footer ; sera consolidé quand BaseLayout sera supprimé en Epic 4
+- **2-3** `PageLayout.astro:head` — Absence de meta Open Graph, Twitter card, canonical, et robots ; à adresser dans une story dédiée SEO
+- **2-3** `PageLayout.astro:32-35` — Google Fonts chargé sans stratégie de fallback réseau (FOIT/FOUT possible)
+- **2-3** `PageLayout.astro:22` — `<html lang="fr">` hardcodé, aucune prop pour surcharger par page
+- **2-3** `PageLayout.astro:28` — `title=""` génère " - 18 rue Divona" sans garde ; responsabilité du caller
+- **2-3** `PageLayout.astro:26` — `description=""` contourne le fallback et génère une meta vide ; responsabilité du caller

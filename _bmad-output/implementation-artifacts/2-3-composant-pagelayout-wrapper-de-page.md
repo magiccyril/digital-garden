@@ -1,6 +1,6 @@
 # Story 2.3 : Composant PageLayout (wrapper de page)
 
-Status: review
+Status: done
 
 ## Story
 
@@ -45,6 +45,16 @@ afin que chaque nouvelle page n'ait besoin que d'une ligne pour avoir la structu
 
 - [x] Tâche 3 : Valider le build (AC: #3)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Defer] `SITE_NAME` / `SITE_AUTHOR` dupliqués dans PageLayout et Footer [PageLayout.astro:16-17] — deferred, documenté dans la spec : BaseLayout sera supprimé en Epic 4, les constantes seront consolidées à ce moment
+- [x] [Review][Defer] Absence de meta Open Graph et Twitter card [PageLayout.astro:head] — deferred, hors périmètre Epic 2 ; à adresser lors d'une story dédiée SEO
+- [x] [Review][Defer] Absence de `<link rel="canonical">` et meta robots [PageLayout.astro:head] — deferred, hors périmètre Epic 2
+- [x] [Review][Defer] Google Fonts chargé sans stratégie de fallback réseau (FOIT/FOUT) [PageLayout.astro:32-35] — deferred, hors périmètre Epic 2
+- [x] [Review][Defer] `<html lang="fr">` hardcodé, aucune prop pour surcharger par page [PageLayout.astro:22] — deferred, le site est mono-langue pour l'instant
+- [x] [Review][Defer] `title=""` génère " - 18 rue Divona" sans garde [PageLayout.astro:28] — deferred, responsabilité du caller ; faible probabilité d'occurrence
+- [x] [Review][Defer] `description=""` contourne le fallback et génère une meta vide [PageLayout.astro:26] — deferred, responsabilité du caller ; faible probabilité d'occurrence
 
 ## Dev Notes
 
