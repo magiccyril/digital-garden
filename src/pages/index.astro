@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 // Récupère les notes publiées, triées par date décroissante
 const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
 const recentNotes = allNotes
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => b.data.update.getTime() - a.data.update.getTime())
   .slice(0, 5);
 
 // Compte par stage pour l'aperçu du jardin
