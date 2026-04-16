@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { note } = Astro.props;
-const { title, date, stage, tags, description } = note.data;
+const { title, date, update, stage, tags, description } = note.data;
 
 // ── Backlinks : trouve les notes qui mentionnent celle-ci ──
 // LOGIQUE PRÉSERVÉE À L'IDENTIQUE — ne pas modifier
@@ -33,6 +33,11 @@ const formattedDate = date.toLocaleDateString('fr-FR', {
   month: 'long',    // ← 'long' (pas 'short' comme dans NoteCard)
   day: 'numeric',
 });
+const formattedUpdateDate = update.toLocaleDateString('fr-FR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 
 <PageLayout title={title} description={description}>
@@ -46,7 +51,13 @@ const formattedDate = date.toLocaleDateString('fr-FR', {
         <p class="note-header__description">{description}</p>
       )}
       <div class="note-header__meta">
-        <time datetime={date.toISOString()} class="note-header__date">{formattedDate}</time>
+        <span class="note-header__date">
+          Planté le <time datetime={date.toISOString()}>{formattedDate}</time>
+          {/* Affiche "Mis à jour le" si la note a été modifiée plus de 7 jours après sa création */}
+          {update.getTime() - date.getTime() > 7 * 24 * 60 * 60 * 1000 && (
+          <span>· Cultivé le <time datetime={update.toISOString()}>{formattedUpdateDate}</time></span>
+          )}
+        </span>
         {tags.length > 0 && (
           <div class="note-header__tags">
             {tags.map((tag) => (
@@ -90,7 +101,7 @@ const formattedDate = date.toLocaleDateString('fr-FR', {
   .note-header__description {
     font-size: var(--text-base);
     color: var(--color-ink-muted);
-    margin: 0 0 var(--space-lg);
+    margin: 0 0 var(--space-md);
     font-style: italic;     /* pas de token font-style — valeur structurelle */
   }
 
@@ -101,6 +112,10 @@ const formattedDate = date.toLocaleDateString('fr-FR', {
     gap: var(--space-md);
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
+  }
+
+  .note-header__date {
+    font-size: var(--text-xs);
   }
 
   .note-header__tags {
