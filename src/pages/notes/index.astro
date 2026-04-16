@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
 
 // Trie par date décroissante
-const sorted = allNotes.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sorted = allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.getTime());
 
 // Collecte tous les tags uniques
 const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
@@ -59,7 +59,7 @@ const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
         <NoteCard
           title={note.data.title}
           slug={note.id}
-          date={note.data.date}
+          date={note.data.update}
           stage={note.data.stage}
           description={note.data.description}
           tags={note.data.tags}
