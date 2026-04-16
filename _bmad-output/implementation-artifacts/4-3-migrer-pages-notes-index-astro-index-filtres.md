@@ -1,6 +1,6 @@
 # Story 4.3 : Migrer pages/notes/index.astro (index + filtres)
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
@@ -37,30 +37,30 @@ afin de trouver rapidement les notes qui m'intéressent.
 
 ## Tasks / Subtasks
 
-- [ ] Tâche 1 : Remplacer les imports et le wrapper layout (AC: #1)
-  - [ ] Remplacer `import BaseLayout` par `import PageLayout from '../../layouts/PageLayout.astro'`
-  - [ ] Remplacer `import StageBadge` par `import NoteCard from '../../components/NoteCard.astro'`
-  - [ ] Remplacer `<BaseLayout title="Notes" description="...">` par `<PageLayout title="Notes" description="...">`
+- [x] Tâche 1 : Remplacer les imports et le wrapper layout (AC: #1)
+  - [x] Remplacer `import BaseLayout` par `import PageLayout from '../../layouts/PageLayout.astro'`
+  - [x] Remplacer `import StageBadge` par `import NoteCard from '../../components/NoteCard.astro'`
+  - [x] Remplacer `<BaseLayout title="Notes" description="...">` par `<PageLayout title="Notes" description="...">`
 
-- [ ] Tâche 2 : Migrer les inline `style=""` du template vers des classes scoped (AC: #1)
-  - [ ] Créer `.notes-header`, `.notes-header__title`, `.notes-header__count`
-  - [ ] Créer `.filters`, `.filters__group`, `.filters__label`
-  - [ ] Créer `.notes-count`, `.notes-list`, `.empty-msg` (voir note sur `empty-msg` ci-dessous)
-  - [ ] Tokeniser `.filter-btn` existant (border-radius, font-size, transition)
-  - [ ] Supprimer `.note-card` et `.note-card:hover h2` (NoteCard gère son propre hover)
+- [x] Tâche 2 : Migrer les inline `style=""` du template vers des classes scoped (AC: #1)
+  - [x] Créer `.notes-header`, `.notes-header__title`, `.notes-header__count`
+  - [x] Créer `.filters`, `.filters__group`, `.filters__label`
+  - [x] Créer `.notes-count`, `.notes-list`, `.empty-msg` (voir note sur `empty-msg` ci-dessous)
+  - [x] Tokeniser `.filter-btn` existant (border-radius, font-size, transition)
+  - [x] Supprimer `.note-card` et `.note-card:hover h2` (NoteCard gère son propre hover)
 
-- [ ] Tâche 3 : Remplacer le rendu inline des notes par NoteCard (AC: #1, #2)
-  - [ ] Garder `<li class="note-item" data-stage data-tags>` (requis par le JS)
-  - [ ] Remplacer le contenu inline `<a class="note-card">` par `<NoteCard ...>`
-  - [ ] Passer les 6 props : `title`, `slug={note.id}`, `date`, `stage`, `description`, `tags`
+- [x] Tâche 3 : Remplacer le rendu inline des notes par NoteCard (AC: #1, #2)
+  - [x] Garder `<li class="note-item" data-stage data-tags>` (requis par le JS)
+  - [x] Remplacer le contenu inline `<a class="note-card">` par `<NoteCard ...>`
+  - [x] Passer les 6 props : `title`, `slug={note.id}`, `date`, `stage`, `description`, `tags`
 
-- [ ] Tâche 4 : Préserver le bloc `<script>` à l'identique (AC: #1, #2)
-  - [ ] Ne PAS modifier le code JS — copier/coller identiquement
-  - [ ] Vérifier que `(window as any).filterStage = filterStage` et `(window as any).filterTag = filterTag` sont présents
+- [x] Tâche 4 : Préserver le bloc `<script>` à l'identique (AC: #1, #2)
+  - [x] Ne PAS modifier le code JS — copier/coller identiquement
+  - [x] Vérifier que `(window as any).filterStage = filterStage` et `(window as any).filterTag = filterTag` sont présents
 
-- [ ] Tâche 5 : Valider et vérifier (AC: #3)
-  - [ ] `npm run build` → 0 erreur
-  - [ ] `grep 'style="' src/pages/notes/index.astro` → 1 seul résultat (le `style="display:none"` justifié sur `#empty-msg`)
+- [x] Tâche 5 : Valider et vérifier (AC: #3)
+  - [x] `npm run build` → 0 erreur
+  - [x] `grep 'style="' src/pages/notes/index.astro` → 1 seul résultat (le `style="display:none"` justifié sur `#empty-msg`)
 
 ## Dev Notes
 
@@ -652,4 +652,20 @@ claude-sonnet-4-6
 
 ### Completion Notes List
 
+Migration complète de `src/pages/notes/index.astro` :
+- Remplacement de `BaseLayout` par `PageLayout` et `StageBadge` par `NoteCard`
+- Suppression de tous les `style=""` inline sauf le `display:none` justifié sur `#empty-msg`
+- Création des classes scoped BEM : `.notes-header`, `.filters`, `.filters__group`, `.filters__label`, `.notes-count`, `.notes-list`, `.empty-msg`
+- Tokenisation de `.filter-btn` : `--radius-pill`, `--text-xs`, `--duration-fast`, `--color-accent`
+- Bloc `<script>` préservé à l'identique, `(window as any).filterStage/filterTag` présents
+- Message vide mis à jour : "Aucune note pour ce filtre." avec `--text-sm` et `text-align: center`
+- Build : 0 erreur, 6 pages générées
+- Validation grep : 1 seul `style=""` (justifié), 2 lignes `window as any` (filterStage + filterTag)
+
 ### File List
+
+- src/pages/notes/index.astro
+
+## Change Log
+
+- 2026-04-16 : Migration de `src/pages/notes/index.astro` — remplacement BaseLayout→PageLayout, suppression styles inline, tokenisation CSS, remplacement rendu inline par NoteCard, préservation bloc JS. Build : 0 erreur.
