@@ -1,18 +1,18 @@
 ---
 import NavLink from './NavLink.astro';
+import { SITE_AUTHOR } from '../config/site';
 
 interface Props {
   currentPath: string;
 }
 
 const { currentPath } = Astro.props;
-
-const SITE_AUTHOR = 'Cyril G';
 ---
 
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="nav-links">
+      <NavLink href="/rss" label="Flux RSS" active={currentPath.startsWith('/rss')} /> -
       <NavLink href="/styleguide" label="Styleguide" active={currentPath.startsWith('/styleguide')} />
     </div>
     <span>Cultivé avec soin 🌱 {SITE_AUTHOR} {new Date().getFullYear()}</span>
