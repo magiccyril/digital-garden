@@ -12,7 +12,7 @@ const sorted = allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.g
 const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
 ---
 
-<PageLayout title="Notes" description="Index de toutes les notes du garden.">
+<PageLayout title="Notes" description="Index de toutes les notes du jardin.">
   <header class="notes-header">
     <h1 class="notes-header__title">Notes</h1>
     <p class="notes-header__count">
