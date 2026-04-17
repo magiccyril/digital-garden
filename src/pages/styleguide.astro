@@ -371,10 +371,11 @@ const demoBacklinks = [
     <div class="sg-component">
       <h3 class="sg-component__name">Footer</h3>
       <p class="sg-component__props">
-        Aucune prop. Normalement géré automatiquement par PageLayout.
+        <code>currentPath</code>: string — détermine le lien actif dans la navigation.
+        Normalement géré automatiquement par PageLayout.
       </p>
       <div class="sg-preview sg-preview--full-width">
-        <Footer />
+        <Footer currentPath="/styleguide" />
       </div>
     </div>
 

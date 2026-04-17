@@ -1,12 +1,20 @@
 ---
-interface Props {}
+import NavLink from './NavLink.astro';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
 
 const SITE_AUTHOR = 'Cyril G';
 ---
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <span>Item</span>
+    <div class="nav-links">
+      <NavLink href="/styleguide" label="Styleguide" active={currentPath.startsWith('/styleguide')} />
+    </div>
     <span>Cultivé avec soin 🌱 {SITE_AUTHOR} {new Date().getFullYear()}</span>
   </div>
 </footer>
