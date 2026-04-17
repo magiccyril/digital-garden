@@ -3,7 +3,7 @@ interface Props {
   backlinks: Array<{ title: string; slug: string }>;
 }
 
-const { backlinks } = Astro.props;
+const { backlinks = [] } = Astro.props;
 ---
 
 {backlinks.length > 0 && (

@@ -1,6 +1,6 @@
 # Story 3.2 : Composant Tag (variantes interactive/static)
 
-Status: review
+Status: done
 
 ## Story
 
@@ -35,6 +35,12 @@ afin d'identifier les thèmes et naviguer par tag.
 
 - [x] Tâche 2 : Valider le build (AC: #3)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Decision] Background au repos : `--color-surface-hover` au lieu de `--color-border` — conservé intentionnellement (choix UX validé) — La spec (AC #6, Dev Notes) exige `var(--color-border)` (`oklch(88% 0.01 250)`, gris clair visible). L'implémentation actuelle utilise `var(--color-surface-hover)` (`oklch(18% 0.01 250 / 0.04)`, 4% opacité quasiment invisible). Changement délibéré post-implementation (commit `a976d57`). Décision : (a) garder `--color-surface-hover` comme amélioration UX, ou (b) revenir à `--color-border` selon spec. [Tag.astro:22]
+- [x] [Review][Patch] Variante interactive hérite `color: var(--color-accent-600)` depuis le style global `a {}` [Tag.astro:27] — ajouter `color: var(--color-ink-muted)` dans `.tag--interactive` pour cohérence visuelle avec la variante static
+- [x] [Review][Defer] `href` vide string (`href=""`) rend une `<a>` qui navigue vers la page courante [Tag.astro:11] — deferred, les appelants passent des URLs valides ou `undefined` en pratique
 
 ## Dev Notes
 

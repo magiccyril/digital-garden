@@ -40,7 +40,7 @@ const { title, slug, date, stage, description, tags = [] } = Astro.props;
     padding: var(--space-lg) var(--space-md);
     margin-left: calc(-1 * var(--space-md));
     margin-right: calc(-1 * var(--space-md));
-    border-radius: var(--radius-md, 8px);
+    border-radius: var(--radius-medium);
     text-decoration: none;
     color: inherit;
     transition: background var(--duration-fast) ease, transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
@@ -50,6 +50,7 @@ const { title, slug, date, stage, description, tags = [] } = Astro.props;
   .note-card:hover {
     background: var(--color-surface-hover);
     transform: scale(1.007);
+    /* box-shadow : couleur --color-ink à 7% opacité — pas de token shadow dans ce projet */
     box-shadow: 0 4px 16px oklch(18% 0.01 250 / 0.07);
   }
 

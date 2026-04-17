@@ -13,6 +13,16 @@
 - `a:hover { color: var(--color-accent-700) }` écrase la couleur de `.wiki-link--new` au survol — pré-existant, besoin d'un override `a.wiki-link--new:hover`
 - `<body style="background-color: var(--color-surface); color: var(--color-ink);">` dans `BaseLayout.astro` duplique la règle `html` et bloque les overrides par utilitaires TW — pré-existant
 
+## Deferred from: code review de l'epic-3 stories 3-1 à 3-5 (2026-04-17)
+
+- **3-1** `StageBadge.astro:34` — Stage prop invalide → crash potentiel ; TypeScript union type garantit la valeur au compile time via Content Collections
+- **3-2** `Tag.astro:11` — `href=""` (chaîne vide) rend une `<a>` qui navigue vers la page courante ; les appelants passent des URLs valides ou `undefined` en pratique
+- **3-3** `NoteCard.astro:41-42` — Overflow horizontal potentiel avec margins négatives `calc(-1 * var(--space-md))` ; à vérifier lors de l'intégration en Epic 4 que les conteneurs parents ont `overflow-x: hidden`
+- **3-3** `NoteCard.astro:47` — `will-change: transform` permanent sur chaque carte → consommation GPU sur listes longues ; la spec l'exige explicitement, optimisation possible post-Epic
+- **3-3** `NoteCard.astro:25` — Date invalide → crash `toISOString()` / `toLocaleDateString()` ; Astro Content Collections valide les dates au parsing, risque pratique nul
+- **3-3** `NoteCard.astro:28` — Tags avec chaîne vide génèrent un `Tag` vide (`# ` visible) ; validation du contenu (frontmatter), pas du composant
+- **3-4** `BacklinkList.astro:15` — Slugs non encodés dans les hrefs ; les slugs Astro Content Collections sont normalisés, risque pratique faible
+
 ## Deferred from: code review de l'epic-2 (2026-04-16)
 
 - **2-1** `NavLink.astro:6` — Prop `active` sans valeur par défaut TypeScript ; ajouter `active = false` si une valeur par défaut défensive est souhaitée

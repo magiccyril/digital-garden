@@ -1,6 +1,6 @@
 # Story 3.4 : Composant BacklinkList
 
-Status: review
+Status: done
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
@@ -42,6 +42,11 @@ afin de découvrir des connexions entre mes idées.
 
 - [x] Tâche 2 : Valider le build (AC: #4)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Patch] Prop `backlinks` obligatoire sans valeur par défaut — crash si non fournie [BacklinkList.astro:3] — remplacer `backlinks: Array<...>` par `backlinks?: Array<...>` avec défaut `= []` dans le destructuring
+- [x] [Review][Defer] Slugs non encodés dans les hrefs `/notes/${slug}` [BacklinkList.astro:15] — deferred, les slugs Astro Content Collections sont normalisés, risque pratique faible
 
 ## Dev Notes
 

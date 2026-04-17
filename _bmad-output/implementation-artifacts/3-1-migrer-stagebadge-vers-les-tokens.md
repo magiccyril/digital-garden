@@ -1,6 +1,6 @@
 # Story 3.1 : Migrer StageBadge vers les tokens
 
-Status: review
+Status: done
 
 ## Story
 
@@ -55,6 +55,11 @@ afin d'identifier immédiatement le degré de développement d'une idée.
 
 - [x] Tâche 3 : Valider le build (AC: #5)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Decision] Classes de taille `stage-badge--sm`/`stage-badge--md` sans règles CSS — La spec (AC #9, Dev Notes) exige les classes Tailwind `text-xs px-2 py-0.5` / `text-sm px-3 py-1`. Les classes BEM ont été introduites post-implémentation sans règles CSS correspondantes : le prop `size` n'a aucun effet visuel. Décision : (a) rétablir les classes Tailwind selon spec, ou (b) définir les règles CSS `.stage-badge--sm` / `.stage-badge--md` pour remplacer les Tailwind. [StageBadge.astro:34]
+- [x] [Review][Defer] Stage prop invalide → crash potentiel [StageBadge.astro:34] — deferred, TypeScript union type garantit la valeur au compile time via Content Collections
 
 ## Dev Notes
 

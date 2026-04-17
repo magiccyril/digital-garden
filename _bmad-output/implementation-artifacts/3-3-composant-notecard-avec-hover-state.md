@@ -1,6 +1,6 @@
 # Story 3.3 : Composant NoteCard avec hover state
 
-Status: review
+Status: done
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
@@ -45,6 +45,15 @@ afin de choisir quelle note lire depuis la homepage ou l'index.
 
 - [x] Tâche 2 : Valider le build (AC: #4)
   - [x] Exécuter `npm run build` et confirmer 0 erreur
+
+### Review Findings
+
+- [x] [Review][Decision] Hover `scale(1.007)` + fond au lieu de `translateY(-1px)` — conservé intentionnellement (choix UX validé) ; box-shadow commenté — La spec (AC #5, Dev Notes) exige `transform: translateY(-1px)` + `box-shadow`. L'implémentation utilise `scale(1.007)` + `background: var(--color-surface-hover)` + nouveau `box-shadow`. Changement délibéré post-spec (commits `be0e8c3`, `0df6bdb`). De plus `box-shadow` utilise une valeur OKLCH hardcodée (`oklch(18% 0.01 250 / 0.07)`). Décision : (a) garder scale+background comme amélioration, en documentant l'exception box-shadow, ou (b) revenir à translateY selon spec. [NoteCard.astro:50-53]
+- [x] [Review][Patch] Token `--radius-md` inexistant — fallback `8px` toujours actif [NoteCard.astro:43] — remplacer `var(--radius-md, 8px)` par `var(--radius-medium)` (token correct défini dans global.css)
+- [x] [Review][Defer] Overflow horizontal potentiel avec `margin-left/right: calc(-1 * var(--space-md))` [NoteCard.astro:41-42] — deferred, à vérifier lors de l'intégration en Epic 4 que les parents ont overflow-x:hidden
+- [x] [Review][Defer] `will-change: transform` permanent sur chaque carte — consommation GPU sur listes longues [NoteCard.astro:47] — deferred, la spec l'exige explicitement, optimisation possible post-Epic
+- [x] [Review][Defer] Date invalide → crash `toISOString()` / `toLocaleDateString()` [NoteCard.astro:25] — deferred, Astro Content Collections valide les dates au parsing, risque pratique nul
+- [x] [Review][Defer] Tags avec chaîne vide génèrent un `Tag` vide (`# ` visible) [NoteCard.astro:28] — deferred, validation du contenu (frontmatter), pas du composant
 
 ## Dev Notes
 

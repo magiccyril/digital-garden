@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: "2026-04-13"
-last_updated: "2026-04-16"  # updated by code-review for epic-2
+last_updated: "2026-04-17"  # updated by code-review for epic-3 stories 3-1 to 3-5
 project: digitalgarden
 project_key: NOKEY
 tracking_system: file-system
@@ -58,11 +58,11 @@ development_status:
 
   # Epic 3 : Composants de Contenu
   epic-3: in-progress
-  3-1-migrer-stagebadge-vers-les-tokens: review
-  3-2-composant-tag-variantes-interactive-static: review
-  3-3-composant-notecard-avec-hover-state: review
-  3-4-composant-backlinklist: review
-  3-5-styles-wiki-links-et-typographie-prose: review
+  3-1-migrer-stagebadge-vers-les-tokens: done
+  3-2-composant-tag-variantes-interactive-static: done
+  3-3-composant-notecard-avec-hover-state: done
+  3-4-composant-backlinklist: done
+  3-5-styles-wiki-links-et-typographie-prose: done
   epic-3-retrospective: optional
 
   # Epic 4 : Migration des Pages

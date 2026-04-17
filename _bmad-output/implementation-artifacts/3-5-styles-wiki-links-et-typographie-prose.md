@@ -1,6 +1,6 @@
 # Story 3.5 : Styles wiki-links et typographie prose
 
-Status: review
+Status: done
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
