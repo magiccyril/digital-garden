@@ -1,6 +1,6 @@
 # Story 4.3 : Migrer pages/notes/index.astro (index + filtres)
 
-Status: review
+Status: done
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
@@ -669,3 +669,8 @@ Migration complète de `src/pages/notes/index.astro` :
 ## Change Log
 
 - 2026-04-16 : Migration de `src/pages/notes/index.astro` — remplacement BaseLayout→PageLayout, suppression styles inline, tokenisation CSS, remplacement rendu inline par NoteCard, préservation bloc JS. Build : 0 erreur.
+
+### Review Findings
+
+- [ ] [Review][Decision] Tri par `update` au lieu de `date` et `date={note.data.update}` passé à NoteCard — Déviation spec, intentionnel ? [notes/index.astro:6]
+- [x] [Review][Patch] `flex-wrap: wrap` + `overflow-x: auto` contradictoires sur `.filters__group` — AC#4 exige scroll horizontal mobile, mais `flex-wrap: wrap` annule `overflow-x: auto`. Fix : remplacer `flex-wrap: wrap` par `flex-wrap: nowrap` sur `.filters__group`, ou supprimer `overflow-x: auto`. [notes/index.astro `.filters__group`]

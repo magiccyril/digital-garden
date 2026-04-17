@@ -23,6 +23,12 @@
 - **3-3** `NoteCard.astro:28` — Tags avec chaîne vide génèrent un `Tag` vide (`# ` visible) ; validation du contenu (frontmatter), pas du composant
 - **3-4** `BacklinkList.astro:15` — Slugs non encodés dans les hrefs ; les slugs Astro Content Collections sont normalisés, risque pratique faible
 
+## Deferred from: code review de l'epic-4 stories 4-1 à 4-4 (2026-04-17)
+
+- **4-1** `NoteLayout.astro` — Affichage de la date `update` ajouté hors scope story 4.1 ; enhancement intentionnel en commits séparés, aucune action requise
+- **4-3** `notes/index.astro` — `(window as any).filterTag` global namespace pollution ; pattern pré-existant, documenté et intentionnel, pas d'alternative sans refactor JS
+- **4-3** `notes/index.astro` — `emptyMsg.style.display = ''` dépend de l'absence de `display:none` dans la classe CSS `.empty-msg` ; contrainte documentée par commentaire en place
+
 ## Deferred from: code review de l'epic-2 (2026-04-16)
 
 - **2-1** `NavLink.astro:6` — Prop `active` sans valeur par défaut TypeScript ; ajouter `active = false` si une valeur par défaut défensive est souhaitée

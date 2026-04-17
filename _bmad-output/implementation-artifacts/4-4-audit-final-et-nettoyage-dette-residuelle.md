@@ -1,6 +1,6 @@
 # Story 4.4 : Audit final et nettoyage de la dette résiduelle
 
-Status: review
+Status: done
 
 ## Story
 
@@ -209,3 +209,7 @@ Audit final et nettoyage terminés :
 ## Change Log
 
 - 2026-04-16 : Audit final — suppression de BaseLayout.astro (orphelin), nettoyage des 4 commentaires PERSONNALISE résiduels dans index.astro et global.css. Build : 0 erreur. Le design system respecte désormais FR22 dans l'intégralité du code.
+
+### Review Findings
+
+- [x] [Review][Patch] `grep 'style="' src/` retourne 3 résultats au lieu de 1 — Les 2 commentaires HTML explicatifs dans `notes/index.astro` (lignes 71-72) contiennent `style="` et font échouer l'audit AC#1. Fix : reformuler les commentaires pour éviter le pattern `style="`. [notes/index.astro:71-72]

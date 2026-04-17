@@ -1,6 +1,6 @@
 # Story 4.2 : Migrer pages/index.astro (homepage)
 
-Status: review
+Status: done
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
@@ -466,3 +466,7 @@ claude-sonnet-4-6
 ### File List
 
 - src/pages/index.astro (modifié)
+
+### Review Findings
+
+- [ ] [Review][Decision] Tri et date affichés par `update` au lieu de `date` — Sort et prop `date={note.data.update}` passés à NoteCard utilisent `update` au lieu de `date` (spec). Titre "Récemment cultivé" cohérent avec ce choix. Intentionnel ? À valider. [index.astro:9,68]

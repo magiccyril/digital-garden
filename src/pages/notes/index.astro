@@ -68,8 +68,8 @@ const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
     ))}
   </ul>
 
-  <!-- style="display:none" justifié : le JS gère la visibilité via element.style.display -->
-  <!-- Supprimer ce style="" casserait le comportement JS (voir Dev Notes) -->
+  <!-- display:none posé en attribut inline — le JS toggle via element.style.display -->
+  <!-- Déplacer vers la classe CSS casserait la logique de visibilité (voir Dev Notes) -->
   <p id="empty-msg" class="empty-msg" style="display:none">
     Aucune note pour ce filtre.
   </p>
@@ -101,10 +101,10 @@ const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
 
   .filters__group {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;          /* nowrap requis pour que overflow-x: auto active le scroll (AC #4) */
     gap: var(--space-sm);
     align-items: center;
-    overflow-x: auto;           /* scroll horizontal mobile (AC #4) */
+    overflow-x: auto;
   }
 
   .filters__label {

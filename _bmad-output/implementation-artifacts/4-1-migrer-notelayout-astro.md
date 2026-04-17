@@ -1,6 +1,6 @@
 # Story 4.1 : Migrer NoteLayout.astro
 
-Status: review
+Status: done
 
 <!-- Note: Validation optionnelle. Exécuter validate-create-story pour contrôle qualité avant dev-story. -->
 
@@ -407,3 +407,9 @@ claude-sonnet-4-6
 ### File List
 
 - src/layouts/NoteLayout.astro (modifié)
+
+### Review Findings
+
+- [ ] [Review][Decision] `.note-header__date { font-size: var(--text-xs) }` — Réduit la date de `--text-sm` (hérité de `.note-header__meta`) à `--text-xs`. Non prévu dans la spec. À conserver (décision UX) ou revenir à `--text-sm` ? [NoteLayout.astro:117]
+- [x] [Review][Patch] `.note-header__description` margin `--space-md` au lieu de `--space-lg` — Spec définit `var(--space-lg)`, implémentation utilise `var(--space-md)`. [NoteLayout.astro:104]
+- [x] [Review][Defer] Affichage de `update` dans NoteLayout hors scope story 4.1 — Enhancement intentionnel ajouté en commits séparés, déferred
