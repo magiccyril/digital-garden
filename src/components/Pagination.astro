@@ -1,0 +1,61 @@
+---
+import { pageUrl } from '@utils/pagination';
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination">
+    {currentPage > 1 ? (
+      <a href={pageUrl(baseUrl, currentPage - 1)} class="pagination__link">← Précédent</a>
+    ) : (
+      <span class="pagination__link pagination__link--disabled">← Précédent</span>
+    )}
+
+    <span class="pagination__info">
+      Page {currentPage} / {totalPages}
+    </span>
+
+    {currentPage < totalPages ? (
+      <a href={pageUrl(baseUrl, currentPage + 1)} class="pagination__link">Suivant →</a>
+    ) : (
+      <span class="pagination__link pagination__link--disabled">Suivant →</span>
+    )}
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pagination__link {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-accent-600);
+    text-decoration: none;
+  }
+
+  .pagination__link--disabled {
+    color: var(--color-ink-muted);
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .pagination__info {
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+    font-family: var(--font-mono);
+  }
+</style>

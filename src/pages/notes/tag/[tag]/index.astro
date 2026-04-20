@@ -1,0 +1,34 @@
+---
+import NotesListPage from '../../../../components/NotesListPage.astro';
+import { getCollection } from 'astro:content';
+import { paginate } from '@utils/pagination';
+import { slugify } from '@utils/strings';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+  const tags = [...new Set(allNotes.flatMap((n) => n.data.tags))];
+
+  return tags.map((tag) => ({ params: { tag: slugify(tag) }, props: { tagLabel: tag } }));
+};
+
+const { tagLabel } = Astro.props;
+const { tag } = Astro.params;
+
+const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.getTime());
+
+const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
+const filtered = allNotes.filter((n) => n.data.tags.some((t) => slugify(t) === tag));
+const { items, currentPage, totalPages, totalItems } = paginate(filtered, 1);
+---
+
+<NotesListPage
+  notes={items}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalNotes={totalItems}
+  baseUrl={`/notes/tag/${tag}`}
+  allTags={allTags}
+  currentTag={tagLabel}
+/>

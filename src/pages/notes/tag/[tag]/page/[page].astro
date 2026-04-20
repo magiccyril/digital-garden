@@ -1,0 +1,41 @@
+---
+import NotesListPage from '../../../../../components/NotesListPage.astro';
+import { getCollection } from 'astro:content';
+import { paginate, PAGE_SIZE } from '@utils/pagination';
+import { slugify } from '@utils/strings';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+  allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.getTime());
+
+  const tags = [...new Set(allNotes.flatMap((n) => n.data.tags))];
+
+  return tags.flatMap((tagLabel) => {
+    const slug = slugify(tagLabel);
+    const filtered = allNotes.filter((n) => n.data.tags.some((t) => slugify(t) === slug));
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+
+    return Array.from({ length: totalPages }, (_, i) => ({
+      params: { tag: slug, page: String(i + 1) },
+      props: { filtered, allNotes, tagLabel },
+    }));
+  });
+};
+
+const { filtered, allNotes, tagLabel } = Astro.props;
+const { tag, page } = Astro.params;
+
+const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
+const { items, currentPage, totalPages, totalItems } = paginate(filtered, Number(page));
+---
+
+<NotesListPage
+  notes={items}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalNotes={totalItems}
+  baseUrl={`/notes/tag/${tag}`}
+  allTags={allTags}
+  currentTag={tagLabel}
+/>

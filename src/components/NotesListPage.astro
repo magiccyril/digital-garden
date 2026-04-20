@@ -1,0 +1,85 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import NoteCard from './NoteCard.astro';
+import FilterNav from './FilterNav.astro';
+import Pagination from './Pagination.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  notes: CollectionEntry<'notes'>[];
+  currentPage: number;
+  totalPages: number;
+  totalNotes: number;
+  baseUrl: string;
+  allTags: string[];
+  currentStage?: string;
+  currentTag?: string;
+}
+
+const { notes, currentPage, totalPages, totalNotes, baseUrl, allTags, currentStage, currentTag } = Astro.props;
+---
+
+<PageLayout title="Notes" description="Index de toutes les notes du jardin.">
+  <header class="notes-header">
+    <h1 class="notes-header__title">Notes</h1>
+    <FilterNav allTags={allTags} currentStage={currentStage} currentTag={currentTag} />
+    <p class="notes-header__count">
+      {totalNotes} note{totalNotes > 1 ? 's' : ''}
+    </p>
+  </header>
+
+  <ul class="notes-list">
+    {notes.map((note) => (
+      <li class="note-item">
+        <NoteCard
+          title={note.data.title}
+          slug={note.id}
+          date={note.data.update}
+          stage={note.data.stage}
+          description={note.data.description}
+          tags={note.data.tags}
+        />
+      </li>
+    ))}
+  </ul>
+
+  {notes.length === 0 && (
+    <p class="empty-msg">Aucune note pour ce filtre.</p>
+  )}
+
+  <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl={baseUrl} />
+</PageLayout>
+
+<style>
+  .notes-header {
+    margin-bottom: var(--space-md);
+  }
+
+  .notes-header__title {
+    font-size: var(--text-3xl);
+    margin: 0 0 var(--space-xl);
+  }
+
+  .notes-header__count {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .note-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .empty-msg {
+    color: var(--color-ink-muted);
+    font-style: italic;
+    margin-top: var(--space-xl);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+</style>

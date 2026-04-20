@@ -3,6 +3,7 @@ import PageLayout from './PageLayout.astro';
 import StageBadge from '../components/StageBadge.astro';
 import Tag from '../components/Tag.astro';
 import BacklinkList from '../components/BacklinkList.astro';
+import { slugify } from '../utils/strings';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -61,7 +62,7 @@ const formattedUpdateDate = update.toLocaleDateString('fr-FR', {
         {tags.length > 0 && (
           <div class="note-header__tags">
             {tags.map((tag) => (
-              <Tag label={tag} href={`/notes?tag=${tag}`} />
+              <Tag label={tag} href={`/notes/tag/${slugify(tag)}`} />
             ))}
           </div>
         )}

@@ -1,0 +1,38 @@
+---
+import NotesListPage from '../../../../../components/NotesListPage.astro';
+import { getCollection } from 'astro:content';
+import { paginate, PAGE_SIZE } from '@utils/pagination';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const stages = ['seedling', 'budding', 'evergreen'] as const;
+  const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+  allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.getTime());
+
+  return stages.flatMap((stage) => {
+    const filtered = allNotes.filter((n) => n.data.stage === stage);
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+
+    return Array.from({ length: totalPages }, (_, i) => ({
+      params: { stage, page: String(i + 1) },
+      props: { filtered, allNotes },
+    }));
+  });
+};
+
+const { filtered, allNotes } = Astro.props;
+const { stage, page } = Astro.params;
+
+const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
+const { items, currentPage, totalPages, totalItems } = paginate(filtered, Number(page));
+---
+
+<NotesListPage
+  notes={items}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalNotes={totalItems}
+  baseUrl={`/notes/stage/${stage}`}
+  allTags={allTags}
+  currentStage={stage}
+/>

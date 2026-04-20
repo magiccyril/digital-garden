@@ -7,8 +7,12 @@ import StageBadge from '../components/StageBadge.astro';
 import Tag from '../components/Tag.astro';
 import BacklinkList from '../components/BacklinkList.astro';
 import NavLink from '../components/NavLink.astro';
+import FilterNav from '../components/FilterNav.astro';
+import Pagination from '../components/Pagination.astro';
 
 // Données d'exemple pour les démos de composants
+const demoTags = ['jardinage', 'écriture', 'apprentissage', 'outils', 'processus'];
+
 const demoBacklinks = [
   { title: 'Note qui mentionne celle-ci', slug: 'other-note' },
   { title: 'Une autre note liée', slug: 'another-linked-note' },
@@ -282,8 +286,8 @@ const demoBacklinks = [
         <div class="sg-variant-group">
           <span class="sg-variant-label">Interactive (avec href, hover)</span>
           <div class="sg-flex-row">
-            <Tag label="design" href="/notes?tag=design" />
-            <Tag label="tokens" href="/notes?tag=tokens" />
+            <Tag label="design" href="/notes/tag/design" />
+            <Tag label="tokens" href="/notes/tag/tokens" />
           </div>
         </div>
       </div>
@@ -333,6 +337,54 @@ const demoBacklinks = [
             />
           </li>
         </ul>
+      </div>
+    </div>
+
+    <!-- ── FilterNav ── -->
+    <div class="sg-component">
+      <h3 class="sg-component__name">FilterNav</h3>
+      <p class="sg-component__props">
+        <code>allTags</code>: string[] —
+        <code>currentStage?</code>: string —
+        <code>currentTag?</code>: string — Les filtres sont des liens statiques, sans JS.
+      </p>
+      <div class="sg-preview">
+        <div class="sg-variant-group">
+          <span class="sg-variant-label">Aucun filtre actif</span>
+          <FilterNav allTags={demoTags} />
+        </div>
+        <div class="sg-variant-group">
+          <span class="sg-variant-label">Filtre stage actif (budding)</span>
+          <FilterNav allTags={demoTags} currentStage="budding" />
+        </div>
+        <div class="sg-variant-group">
+          <span class="sg-variant-label">Filtre tag actif (écriture)</span>
+          <FilterNav allTags={demoTags} currentTag="écriture" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Pagination ── -->
+    <div class="sg-component">
+      <h3 class="sg-component__name">Pagination</h3>
+      <p class="sg-component__props">
+        <code>currentPage</code>: number —
+        <code>totalPages</code>: number —
+        <code>baseUrl</code>: string — Masqué si totalPages ≤ 1.
+      </p>
+      <div class="sg-preview">
+        <div class="sg-variant-group">
+          <span class="sg-variant-label">Page 1 / 4 (précédent désactivé)</span>
+          <Pagination currentPage={1} totalPages={4} baseUrl="/notes" />
+        </div>
+        <div class="sg-variant-group">
+          <span class="sg-variant-label">Page 2 / 4 (les deux actifs)</span>
+          <Pagination currentPage={2} totalPages={4} baseUrl="/notes" />
+        </div>
+        <div class="sg-variant-group">
+          <span class="sg-variant-label">Page 4 / 4 (suivant désactivé)</span>
+          <Pagination currentPage={4} totalPages={4} baseUrl="/notes" />
+        </div>
       </div>
     </div>
 

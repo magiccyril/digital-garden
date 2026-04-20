@@ -1,0 +1,33 @@
+---
+import NotesListPage from '../../../components/NotesListPage.astro';
+import { getCollection } from 'astro:content';
+import { paginate, PAGE_SIZE } from '@utils/pagination';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+  allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.getTime());
+
+  const totalPages = Math.max(1, Math.ceil(allNotes.length / PAGE_SIZE));
+
+  return Array.from({ length: totalPages }, (_, i) => ({
+    params: { page: String(i + 1) },
+    props: { allNotes },
+  }));
+};
+
+const { allNotes } = Astro.props;
+const page = Number(Astro.params.page);
+
+const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
+const { items, currentPage, totalPages, totalItems } = paginate(allNotes, page);
+---
+
+<NotesListPage
+  notes={items}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalNotes={totalItems}
+  baseUrl="/notes"
+  allTags={allTags}
+/>

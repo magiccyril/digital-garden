@@ -1,0 +1,93 @@
+---
+import { slugify } from '@utils/strings';
+
+interface Props {
+  allTags: string[];
+  currentStage?: string;
+  currentTag?: string;
+}
+
+const { allTags, currentStage, currentTag } = Astro.props;
+
+const stages = [
+  { value: 'seedling', label: '🌱 Graines' },
+  { value: 'budding',  label: '🌿 Pousses' },
+  { value: 'evergreen', label: '🌳 Arbres' },
+];
+---
+
+<nav class="filter-nav">
+  <div class="filter-nav__group">
+    <span class="filter-nav__label">Stade</span>
+    <a
+      href="/notes"
+      class:list={['filter-btn', { active: !currentStage && !currentTag }]}
+    >Toutes</a>
+    {stages.map(({ value, label }) => (
+      <a
+        href={`/notes/stage/${value}`}
+        class:list={['filter-btn', { active: currentStage === value }]}
+      >{label}</a>
+    ))}
+  </div>
+
+  {allTags.length > 0 && (
+    <div class="filter-nav__group">
+      <span class="filter-nav__label">Tags</span>
+      {allTags.map((tag) => (
+        <a
+          href={`/notes/tag/${slugify(tag)}`}
+          class:list={['filter-btn', { active: currentTag === tag }]}
+        >#{tag}</a>
+      ))}
+    </div>
+  )}
+</nav>
+
+<style>
+  .filter-nav {
+    margin-bottom: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .filter-nav__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+  }
+
+  .filter-nav__label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-ink-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-right: var(--space-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .filter-btn {
+    display: inline-block;
+    padding: 0.3em 0.85em;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all var(--duration-fast);
+    font-family: var(--font-sans);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    border-color: var(--color-accent);
+    background: var(--color-accent-50);
+    color: var(--color-accent-700);
+  }
+</style>

@@ -37,17 +37,17 @@ const counts = {
 
     <!-- Aperçu du jardin -->
     <div class="hero__stats">
-      <a href="/notes?stage=seedling" class="stat-card">
+      <a href="/notes/stage/seedling" class="stat-card">
         <span class="stat-card__emoji">🌱</span>
         <span class="stat-card__count">{counts.seedling}</span>
         <span class="stat-card__label">graine{counts.seedling > 1 ? 's' : ''}</span>
       </a>
-      <a href="/notes?stage=budding" class="stat-card">
+      <a href="/notes/stage/budding" class="stat-card">
         <span class="stat-card__emoji">🌿</span>
         <span class="stat-card__count">{counts.budding}</span>
         <span class="stat-card__label">pousse{counts.budding > 1 ? 's' : ''}</span>
       </a>
-      <a href="/notes?stage=evergreen" class="stat-card">
+      <a href="/notes/stage/evergreen" class="stat-card">
         <span class="stat-card__emoji">🌳</span>
         <span class="stat-card__count">{counts.evergreen}</span>
         <span class="stat-card__label">arbre{counts.evergreen > 1 ? 's' : ''}</span>

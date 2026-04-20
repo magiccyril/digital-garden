@@ -1,0 +1,30 @@
+---
+import NotesListPage from '../../../../components/NotesListPage.astro';
+import { getCollection } from 'astro:content';
+import { paginate } from '@utils/pagination';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const stages = ['seedling', 'budding', 'evergreen'] as const;
+  return stages.map((stage) => ({ params: { stage } }));
+};
+
+const { stage } = Astro.params;
+
+const allNotes = await getCollection('notes', ({ data }) => data.publish !== false);
+allNotes.sort((a, b) => b.data.update.getTime() - a.data.update.getTime());
+
+const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
+const filtered = allNotes.filter((n) => n.data.stage === stage);
+const { items, currentPage, totalPages, totalItems } = paginate(filtered, 1);
+---
+
+<NotesListPage
+  notes={items}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalNotes={totalItems}
+  baseUrl={`/notes/stage/${stage}`}
+  allTags={allTags}
+  currentStage={stage}
+/>
