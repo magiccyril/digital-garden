@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 // @ts-ignore — remark-wiki-link is a CommonJS package, types may be missing
 import remarkWikiLink from 'remark-wiki-link';
+import shiftHeading from 'rehype-shift-heading';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,6 +14,9 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   markdown: {
+    rehypePlugins: [
+      [shiftHeading, { shift: 1 }],
+    ],
     remarkPlugins: [
       [
         remarkWikiLink,
