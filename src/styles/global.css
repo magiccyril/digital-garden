@@ -113,7 +113,6 @@
   .wiki-link--new {
     color: var(--color-ink-muted);
     text-decoration: underline dashed;
-    cursor: not-allowed;
   }
 
   /* Empêche a:hover d'écraser la couleur wiki-link--new */
