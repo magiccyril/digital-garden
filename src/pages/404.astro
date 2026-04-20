@@ -1,0 +1,52 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Page introuvable">
+  <div class="not-found">
+    <p class="not-found__code">404</p>
+    <h1 class="not-found__title">Cette page n'existe pas.</h1>
+    <p class="not-found__message">
+      La graine que vous cherchez n'a pas encore été semée, ou a été déplacée dans le jardin.
+    </p>
+    <a href="/" class="not-found__link">Retourner à l'accueil →</a>
+  </div>
+</PageLayout>
+
+<style>
+  .not-found {
+    padding: var(--space-2xl) 0;
+    max-width: 40ch;
+  }
+
+  .not-found__code {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-600);
+    margin-bottom: var(--space-md);
+  }
+
+  .not-found__title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0 0 var(--space-xl);
+  }
+
+  .not-found__message {
+    font-size: var(--text-base);
+    color: var(--color-ink-muted);
+    line-height: 1.7;
+    margin: 0 0 var(--space-md);
+  }
+
+  .not-found__link {
+    font-size: var(--text-sm);
+    color: var(--color-accent-600);
+    text-decoration: none;
+    font-weight: 500;
+  }
+</style>
