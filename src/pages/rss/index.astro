@@ -1,0 +1,113 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "@utils/strings";
+
+const allNotes = await getCollection(
+  "notes",
+  ({ data }) => data.publish !== false,
+);
+
+// Trie par date décroissante
+const sorted = allNotes.sort(
+  (a, b) => b.data.update.getTime() - a.data.update.getTime(),
+);
+
+// Collecte tous les tags uniques
+const allTags = [...new Set(sorted.flatMap((n) => n.data.tags))].sort();
+---
+
+<PageLayout title="Flux RSS" description="Index des flux RSS du jardin.">
+  <header class="feeds-header">
+    <h1 class="feeds-header__title">Flux RSS</h1>
+    <p class="feeds-header__description">
+      Retrouvez les flux RSS des dernières notes du jardin.
+    </p>
+  </header>
+
+  <section>
+    <h2 class="section-label">Toutes les notes</h2>
+
+    <ul class="feeds-list">
+      <li class="feeds-list__item"><a href="/rss.xml">S'abonner à toutes les notes 🌱🌿🌳</a></li>
+    </ul>
+  </section>
+
+  {allTags.length > 0 && (
+  <section>
+    <h2 class="section-label">Par thématique</h2>
+    <p class="feeds-section__description">
+      Pour suivre les notes selon le sujet.
+    </p>
+
+    <ul class="feeds-list">
+      {
+        allTags.map((tag) => (
+          <li class="feeds-list__item">
+            <a href={`/rss/rss-${slugify(tag)}.xml`}>S'abonner aux notes #{tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  )}
+
+  <section>
+    <h2 class="section-label">Par maturité</h2>
+    <p class="feeds-section__description">
+      Pour suivre l'évolution des notes à travers les différentes étapes de
+      développement.
+    </p>
+
+    <ul class="feeds-list">
+      <li class="feeds-list__item">
+        <a href="/rss/rss-seedling.xml">S'abonner à toutes les graines 🌱</a>
+      </li>
+      <li class="feeds-list__item">
+        <a href="/rss/rss-budding.xml">S'abonner à toutes les pousses 🌿</a>
+      </li>
+      <li class="feeds-list__item">
+        <a href="/rss/rss-evergreen.xml">S'abonner à tous les arbres 🌳</a>
+      </li>
+    </ul>
+  </section>
+</PageLayout>
+
+<style>
+  /* ── Header ── */
+  .feeds-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .feeds-header__title {
+    font-size: var(--text-3xl); /* 2rem — correspondance exacte */
+    margin: 0 0 var(--space-xs);
+  }
+
+  .section-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    margin: var(--space-xl) 0 0;
+  }
+
+  .feeds-section__description {
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+
+  .feeds-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .feeds-list__item {
+    /* border-bottom: 1px solid var(--color-border); */
+    margin-left: var(--space-md);
+    list-style: circle;
+  }
+</style>

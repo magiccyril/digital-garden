@@ -7,6 +7,7 @@ import remarkWikiLink from 'remark-wiki-link';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://18ruedivona.fr',
   integrations: [mdx()],
   vite: {
     plugins: [tailwindcss()],
