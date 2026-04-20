@@ -13,7 +13,7 @@ const { backlinks = [] } = Astro.props;
       {backlinks.map(({ title, slug }) => (
         <li class="backlinks__item">
           <a href={`/notes/${slug}`} class="backlinks__link">
-            <span class="backlinks__arrow" aria-hidden="true">←</span>
+            <span class="backlinks__arrow" aria-hidden="true">→</span>
             {title}
           </a>
         </li>
